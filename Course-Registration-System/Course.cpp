@@ -58,6 +58,6 @@ void Course::displayCourseInfo() {
 
 }
 
-bool operator==(const Course& other) const {
-    return this->id == other->id;
+bool Course::operator==(const Course& other) const {
+    return this->id == other.id;
 }
