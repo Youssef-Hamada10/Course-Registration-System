@@ -34,5 +34,6 @@ public:
 	int getCreditHours();
 	void setCreditHours(int creditHours);
 	void displayCourseInfo();
+	bool operator==(const Course& other) const;
 };
 
