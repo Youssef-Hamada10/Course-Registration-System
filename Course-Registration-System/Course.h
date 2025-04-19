@@ -9,6 +9,9 @@ struct Instructor {
 	string id;
 	string name;
 	string department;
+	bool operator==(const Instructor& other) const {
+		return id == other.id;
+	}
 };
 
 class Course {
