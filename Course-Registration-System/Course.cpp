@@ -57,3 +57,7 @@ void Course::setCreditHours(int creditHours) {
 void Course::displayCourseInfo() {
 
 }
+
+bool operator==(const Course& other) const {
+    return this->id == other->id;
+}
