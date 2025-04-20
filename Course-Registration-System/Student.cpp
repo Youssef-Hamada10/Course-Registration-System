@@ -1,4 +1,5 @@
 #include "Student.h"
+#include <map>
 
 Student::Student(string username, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours):Person(username, password) {
 	this->id = id;
@@ -18,6 +19,10 @@ Student::Student() {
 
 string Student::getName() {  //recently added
     return name;
+}
+
+void Student::setName(string name) {
+	this->name = name;
 }
 
 string Student::getId() {
@@ -84,7 +89,7 @@ void Student::setCurrentCreditHours(int currentCreditHours) {
 	this->currentCreditHours = currentCreditHours;
 }
 
-void Student::searchForCourses(vector<Course> Courses) {
+void Student::searchForCourses(map<string,Course> courses) {
 }
 
 void Student::registerCourse(Course course) {  // was edited

@@ -29,7 +29,18 @@ int main() {
     readCourses(courses);
     readStudents(students, courses);
 
-   
+
+    Student s;
+    Course c;
+    Instructor i;
+
+    students.at("2023170720").setName("Aisha");
+    students.at("2023170720").setUsername("Aisha123");
+
+    courses.at("1").setTitle("physics");
+    courses.at("1").getInstructors().begin()->department = "information System";
+
+
 
     writeCourses(courses);
     writeInstructors(courses);
@@ -71,7 +82,7 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
         student.setID(data.front()), data.pop();
         student.setUsername(data.front()), data.pop();
         student.setPassword(encrypt(data.front(), 'M')), data.pop();
-        student.setUsername(data.front()), data.pop();
+        student.setName(data.front()), data.pop();
         student.setNationality(data.front()), data.pop();
         student.setNationalID(data.front()), data.pop();
         student.setTelephoneNumber(data.front()), data.pop();
@@ -138,8 +149,8 @@ void readCourses(map<string,Course>& courses) {
         course.setTitle(data.front()), data.pop();
         course.setSyllabus(data.front()), data.pop();
         course.setCreditHours(stoi(data.front())), data.pop();
-        course.setNumOfInstructor(stoi(data.front())), data.pop();
-        course.setNumOfPrerequisite(stoi(data.front())), data.pop();
+        /*course.setNumOfInstructor(stoi(data.front())), data.pop();
+        course.setNumOfPrerequisite(stoi(data.front())), data.pop();*/
 
         courses.insert({course.getID(), course});
     }
@@ -159,18 +170,18 @@ void writeCourses(map<string,Course> courses) {
     forward_list<Instructor> instructors;
     forward_list<Course> prerequisites;
 
-    file << "Course ID,Title,Syllabus,Credit Hours,Num Of Instructors,Instructor ID,,Num Of Prerequisites,Prerequisite ID\n";
+    file << "Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID\n";
     for (auto it : courses) {
         file << it.first << ",";
         file << it.second.getTitle() << ",";
         file << it.second.getSyllabus() << ",";
-        file << it.second.getCreditHours();
-        file << it.second.getNumOfInstructor() << ",";
+        file << it.second.getCreditHours() << ",";
+        /*file << it.second.getNumOfInstructor() << ",";*/
         instructors = it.second.getInstructors();
         for (auto inst : instructors) {
             file << "," << inst.id;  
         }
-        file << "," << it.second.getNumOfPrerequisite();
+        /*file << "," << it.second.getNumOfPrerequisite();*/
         prerequisites = it.second.getPrerequisite();
         for (auto pre : prerequisites) {
             file << "," << pre.getID();

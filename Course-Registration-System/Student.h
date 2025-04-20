@@ -1,6 +1,7 @@
 #include "Person.h"
 #include "Course.h"
 #include <stack>
+#include <map>
 
 class Student : public Person {
 private:
@@ -17,10 +18,11 @@ private:
 
 public:
 	Student(string userName, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
-	Student();       //was added
+	Student();       
 	void setID(string); //was added
 	string getId();
 	string getName(); //was added
+	void setName(string name);
 	string getNationalId();
 	void setNationalID(string);  //was added
 	string getTelephoneNumber();
@@ -35,7 +37,7 @@ public:
 	void setStudyLvl(int studyLvl);
 	int getCurrentCreditHours();
 	void setCurrentCreditHours(int currentCreditHours);
-	void searchForCourses(vector<Course> Courses);
+	void searchForCourses(map<string,Course> courses);
 	void registerCourse(Course course);   // was edited
 	void displayInfo();
 	void displayGrades();

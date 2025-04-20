@@ -8,8 +8,8 @@ Course::Course(string id, string title, string syllabus, forward_list<Course> pr
     this->prerequisites = prerequisites;
     this->creditHours = creditHours;
     this->instructors = instructors;
-    this->numOfInstructor = 0; // was added
-    this->numOfPrerequisite = 0; // was added
+    //this->numOfInstructor = 0; // was added
+    //this->numOfPrerequisite = 0; // was added
 }
 
 Course::Course() {
@@ -40,25 +40,25 @@ void Course::setSyllabus(string syllabus) {
     this->syllabus = syllabus;
 }
 
-void Course::setNumOfPrerequisite(int num) {    //recently added
-    this->numOfPrerequisite = num;
-}
-
-int Course::getNumOfPrerequisite() {      //recently added
-    return numOfPrerequisite;
-}
+//void Course::setNumOfPrerequisite(int num) {    //recently added
+//    this->numOfPrerequisite = num;
+//}
+//
+//int Course::getNumOfPrerequisite() {      //recently added
+//    return numOfPrerequisite;
+//}
 
 forward_list<Course> Course::getPrerequisite() {
     return prerequisites;
 }
 
-void Course::setNumOfInstructor(int num) {    //recently added
-    this->numOfInstructor = num;
-}
-
-int Course::getNumOfInstructor() {    //recently added
-    return numOfInstructor;
-}
+//void Course::setNumOfInstructor(int num) {    //recently added
+//    this->numOfInstructor = num;
+//}
+//
+//int Course::getNumOfInstructor() {    //recently added
+//    return numOfInstructor;
+//}
 
 forward_list<Instructor> Course::getInstructors() {  //recently added
     return instructors;
@@ -66,22 +66,22 @@ forward_list<Instructor> Course::getInstructors() {  //recently added
 
 void Course::addPrerequisite(Course course) {
     prerequisites.push_front(course);
-    numOfPrerequisite++;  //recently added
+    //numOfPrerequisite++;  //recently added
 }
 
 void Course::removePrerequisite(Course course) {
     prerequisites.remove(course);
-    numOfPrerequisite--;  //recently added
+    //numOfPrerequisite--;  //recently added
 }
 
 void Course::addInstructor(Instructor instructor) {
     instructors.push_front(instructor);
-    numOfInstructor++;  //recently added
+    //numOfInstructor++;  //recently added
 }
 
 void Course::removeInstructor(Instructor instructor) {
     instructors.remove(instructor);
-    numOfInstructor--;  //recently added
+    //numOfInstructor--;  //recently added
 }
 
 int Course::getCreditHours() {

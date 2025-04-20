@@ -20,9 +20,9 @@ private:
 	string id;
 	string title;
 	string syllabus;
-	int numOfPrerequisite;   //recently added
+	//int numOfPrerequisite;   //recently added
 	forward_list<Course> prerequisites;
-	int numOfInstructor;   //recently added
+	//int numOfInstructor;   //recently added
 	forward_list<Instructor> instructors;
 	int creditHours;
 
@@ -35,11 +35,11 @@ public:
 	void setTitle(string title);
 	string getSyllabus();
 	void setSyllabus(string syllabus);
-	void setNumOfPrerequisite(int);  //recently added
-	int getNumOfPrerequisite();   //recently added
+	//void setNumOfPrerequisite(int);  //recently added
+	//int getNumOfPrerequisite();   //recently added
 	forward_list<Course> getPrerequisite();
-	void setNumOfInstructor(int);  //recently added
-	int getNumOfInstructor();   //recently added
+	//void setNumOfInstructor(int);  //recently added
+	//int getNumOfInstructor();   //recently added
 	forward_list<Instructor> getInstructors(); //recently added
 	void addPrerequisite(Course course);
 	void removePrerequisite(Course course);
