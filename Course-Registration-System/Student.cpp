@@ -12,6 +12,10 @@ Student::Student(string username, string password, string name, string id, strin
 	this->currentCreditHours = currentCreditHours;
 }
 
+Student::Student() {
+	// default constructor
+}
+
 string Student::getName() {  //recently added
     return name;
 }
@@ -20,8 +24,16 @@ string Student::getId() {
 	return id;
 }
 
+void Student::setID(string ID){   //was added
+	this->id = ID;
+}
+
 string Student::getNationalId() {
 	return nationalId;
+}
+
+void Student::setNationalID(string nationalID) {  //was added
+	this->nationalId = nationalID;
 }
 
 string Student::getTelephoneNumber() {
@@ -42,6 +54,10 @@ void Student::setAddress(string address) {
 
 string Student::getNationality() {
 	return nationality;
+}
+
+void Student::setNationality(string nationality) {   //was added
+	this->nationality = nationality;
 }
 
 float Student::getGpa() const {
@@ -71,7 +87,8 @@ void Student::setCurrentCreditHours(int currentCreditHours) {
 void Student::searchForCourses(vector<Course> Courses) {
 }
 
-void Student::registerCourse() {
+void Student::registerCourse(Course course) {  // was edited
+	this->registeredCourses.push(course);
 }
 
 void Student::displayInfo() {
