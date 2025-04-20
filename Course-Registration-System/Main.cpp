@@ -1,8 +1,8 @@
 #include <iostream>
 #include <map>
 #include <fstream>
-#include "queue"
-#include "stack"
+#include <queue>
+#include <stack>
 #include <forward_list>
 #include "Person.h"
 #include "Admin.h"
