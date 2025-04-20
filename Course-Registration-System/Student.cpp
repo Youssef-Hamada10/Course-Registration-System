@@ -12,6 +12,10 @@ Student::Student(string username, string password, string name, string id, strin
 	this->currentCreditHours = currentCreditHours;
 }
 
+string Student::getName() {  //recently added
+    return name;
+}
+
 string Student::getId() {
 	return id;
 }
@@ -79,3 +83,6 @@ void Student::displayGrades() {
 void Student::report() {
 }
 
+stack<Course> Student::getRegisteredCourses() {
+    return registeredCourses;
+}
