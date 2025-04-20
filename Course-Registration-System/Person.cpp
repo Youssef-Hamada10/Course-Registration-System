@@ -5,6 +5,10 @@ Person::Person(string username, string password) {
     this->password = password;
 }
 
+Person::Person(){      //was added
+    //default constructor
+}
+
 string Person::getUsername() {
     return username;
 }
