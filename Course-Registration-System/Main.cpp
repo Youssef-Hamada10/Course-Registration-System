@@ -5,16 +5,14 @@
 #include <stack>
 #include <string>
 #include <forward_list>
-#include "Person.h"
-#include "Admin.h"
-#include "Course.h"
+
 #include "Student.h"
 
 using namespace std;
 
 queue<string> split(string line, char ch);
-void readStudents(map<string,Student>& students, map<string,Course>& courses);    // 2
-void readCourses(map<string,Course>& courses);     // 1
+void readStudents(map<string,Student>& students, map<string,Course>& courses);
+void readCourses(map<string,Course>& courses);
 void readInstructors(map<string,Course>& courses);
 void readPrerequisites(map<string,Course>& courses);
 void writeStudents(map<string,Student> students);
@@ -27,6 +25,17 @@ int main() {
 
     map<string,Student> students;
     map<string,Course> courses;
+
+    readCourses(courses);
+    readStudents(students, courses);
+
+   
+
+    writeCourses(courses);
+    writeInstructors(courses);
+    writePrerequisites(courses);
+    writeStudents(students);
+
 
 }
 
@@ -147,6 +156,9 @@ void writeCourses(map<string,Course> courses) {
         return;
     }
 
+    forward_list<Instructor> instructors;
+    forward_list<Course> prerequisites;
+
     file << "Course ID,Title,Syllabus,Credit Hours,Num Of Instructors,Instructor ID,,Num Of Prerequisites,Prerequisite ID\n";
     for (auto it : courses) {
         file << it.first << ",";
@@ -154,11 +166,13 @@ void writeCourses(map<string,Course> courses) {
         file << it.second.getSyllabus() << ",";
         file << it.second.getCreditHours();
         file << it.second.getNumOfInstructor() << ",";
-        for (auto inst : it.second.getInstructors()) {
+        instructors = it.second.getInstructors();
+        for (auto inst : instructors) {
             file << "," << inst.id;  
         }
         file << "," << it.second.getNumOfPrerequisite();
-        for (auto pre : it.second.getPrerequisite()) {
+        prerequisites = it.second.getPrerequisite();
+        for (auto pre : prerequisites) {
             file << "," << pre.getID();
         }
        file << endl;
@@ -199,12 +213,15 @@ void writeInstructors(map<string,Course> courses) {
         return;
     }
 
+    forward_list<Instructor> instructors;
+
     file << "Instructor ID,Name,Department,Course ID\n";  // Header
     for (auto it : courses) {
-        for(auto ins : it.second.getInstructors()){
-            file << ins.id << ",";
-            file << ins.name << ",";
-            file << ins.department << ",";
+        instructors = it.second.getInstructors();
+        for(Instructor inst : instructors){
+            file << inst.id << ",";
+            file << inst.name << ",";
+            file << inst.department << ",";
         }
         file << it.first << endl;
     }
@@ -230,7 +247,7 @@ void readPrerequisites(map<string,Course>& courses) {
         data = split(line, ',');
         courseID = data.front(), data.pop();
         while (!data.empty()) {
-            preCourseID= data.front(), data.pop();
+            preCourseID = data.front(), data.pop();
             courses.at(courseID).addPrerequisite(courses.at(preCourseID));
         }
     }
@@ -245,10 +262,13 @@ void writePrerequisites(map<string,Course> courses) {
         return;
     }
 
+    forward_list<Course> prerequisites;
+
     file << "Course ID,Prerequisite Course ID\n";  // Header
     for (auto it : courses) {
         file << it.first;
-        for (auto pre : it.second.getPrerequisite()) {
+        prerequisites = it.second.getPrerequisite();
+        for (Course pre : prerequisites) {
             file << "," << pre.getID();
         }
         file << endl;
