@@ -2,8 +2,7 @@
 #include "Course.h"
 #include <stack>
 
-class Student : public Person
-{
+class Student : public Person {
 private:
 	string id;
 	string name;
@@ -18,6 +17,7 @@ private:
 
 public:
 	Student(string userName, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
+	string getName(); //recentely added
 	string getId();
 	string getNationalId();
 	string getTelephoneNumber();
@@ -36,7 +36,5 @@ public:
 	void displayInfo();
 	void displayGrades();
 	void report();
+	stack<Course> getRegisteredCourses();
 };
-
-
-
