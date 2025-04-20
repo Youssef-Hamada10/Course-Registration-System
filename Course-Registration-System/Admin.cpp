@@ -1,13 +1,7 @@
-#include "Admin.h"
-
-void Admin::manageGrades()
-{
-}
-
-void Admin::setPrerequisites()
-{
-}
-
-void Admin::uploadCourseDescription()
-{
-}
+#include "Person.h"
+class Admin : public Person {
+public:
+	void manageGrades();
+	void setPrerequisites();
+	void uploadCourseDescription();
+};
