@@ -25,11 +25,13 @@ private:
 
 public:
 	Course(string id, string title, string syllabus, forward_list<Course> prerequisite, int creditHours, forward_list<Instructor> instructors);
+	string getID();  //recently added
 	string getTitle();
 	void setTitle(string title);
 	string getSyllabus();
 	void setSyllabus(string syllabus);
 	forward_list<Course> getPrerequisite();
+	forward_list<Instructor> getInstructors(); //recently added
 	void addPrerequisite(Course course);
 	void removePrerequisite(Course course);
 	void addInstructor(Instructor instructor);
@@ -39,4 +41,3 @@ public:
 	void displayCourseInfo();
 	bool operator==(const Course& other) const;
 };
-

@@ -10,6 +10,10 @@ Course::Course(string id, string title, string syllabus, forward_list<Course> pr
     this->instructors = instructors;
 }
 
+string Course::getID() {
+    return id;
+}
+
 string Course::getTitle() {
     return title;
 }
@@ -28,6 +32,10 @@ void Course::setSyllabus(string syllabus) {
 
 forward_list<Course> Course::getPrerequisite() {
     return prerequisites;
+}
+
+forward_list<Instructor> Course::getInstructors() {  //recently added
+    return instructors;
 }
 
 void Course::addPrerequisite(Course course) {

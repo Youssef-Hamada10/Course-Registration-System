@@ -2,8 +2,7 @@
 
 using namespace std;
 
-class Person
-{
+class Person {
 protected:
 	string username;
 	string password;
