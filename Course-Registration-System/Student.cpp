@@ -1,10 +1,10 @@
 #include "Student.h"
 #include <map>
 
-Student::Student(string username, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours):Person(username, password) {
-	this->id = id;
+Student::Student(string username, string password, string name, string ID, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours):Person(username, password) {
+	this->ID = ID;
 	this->name = name;
-	this->nationalId = nationalId;
+	this->nationalID = nationalID;
 	this->telephoneNumber = telephoneNumber;
 	this->address = address;
 	this->nationality = nationality;
@@ -17,7 +17,7 @@ Student::Student() {
 	// default constructor
 }
 
-string Student::getName() {  //recently added
+string Student::getName() {
     return name;
 }
 
@@ -25,20 +25,20 @@ void Student::setName(string name) {
 	this->name = name;
 }
 
-string Student::getId() {
-	return id;
+string Student::getID() {
+	return ID;
 }
 
-void Student::setID(string ID){   //was added
-	this->id = ID;
+void Student::setID(string ID){
+	this->ID = ID;
 }
 
-string Student::getNationalId() {
-	return nationalId;
+string Student::getNationalID() {
+	return nationalID;
 }
 
-void Student::setNationalID(string nationalID) {  //was added
-	this->nationalId = nationalID;
+void Student::setNationalID(string nationalID) { 
+	this->nationalID = nationalID;
 }
 
 string Student::getTelephoneNumber() {
@@ -61,7 +61,7 @@ string Student::getNationality() {
 	return nationality;
 }
 
-void Student::setNationality(string nationality) {   //was added
+void Student::setNationality(string nationality) {
 	this->nationality = nationality;
 }
 
@@ -92,8 +92,12 @@ void Student::setCurrentCreditHours(int currentCreditHours) {
 void Student::searchForCourses(map<string,Course> courses) {
 }
 
-void Student::registerCourse(Course course) {  // was edited
-	this->registeredCourses.push(course);
+void Student::registerCourse(Course course) {
+	this->registeredCourses.push_front(course);
+}
+
+void Student::registerCourseInFiles(Course course) {  // recently added
+	this->registeredCourses.push_back(course);
 }
 
 void Student::displayInfo() {
@@ -105,6 +109,6 @@ void Student::displayGrades() {
 void Student::report() {
 }
 
-stack<Course> Student::getRegisteredCourses() {
+deque<Course> Student::getRegisteredCourses() {
     return registeredCourses;
 }

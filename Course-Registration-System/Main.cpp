@@ -2,10 +2,9 @@
 #include <map>
 #include <fstream>
 #include <queue>
-#include <stack>
+#include <deque>
 #include <string>
 #include <forward_list>
-
 #include "Student.h"
 
 using namespace std;
@@ -29,17 +28,83 @@ int main() {
     readCourses(courses);
     readStudents(students, courses);
 
+    /*Student s;
+    s.setID("2023170726");
+    s.setUsername("omar123");
+    s.setPassword("123");
+    s.setName("omar ali");
+    s.setAddress("cairo");
+    s.setCurrentCreditHours(60);
+    s.setGpa(3.44);
+    s.setNationalID("30405060");
+    s.setNationality("egyption");
+    s.setStudyLvl(3);
+    s.setTelephoneNumber("01014800479");
 
-    Student s;
     Course c;
+    c.setID("course#1");
+    c.setCreditHours(4);
+    c.setTitle("structure programing");
+    c.setSyllabus("10 lectures");
+    
+    Course c2;
+    c2.setCreditHours(3);
+    c2.setID("course#2");
+    c2.setSyllabus("9 lectures");
+    c2.setTitle("intro to computer");
+
     Instructor i;
+    i.ID = "instructor#1";
+    i.department = "information system";
+    i.name = "naglaa fathy";
+    i.courseID = "course#2";
 
-    students.at("2023170720").setName("Aisha");
-    students.at("2023170720").setUsername("Aisha123");
+    Instructor i2;
+    i2.ID = "instructor#2";
+    i2.department = "basic science";
+    i2.name = "salsabil amin";
+    i2.courseID = "course#1";
 
-    courses.at("1").setTitle("physics");
-    courses.at("1").getInstructors().begin()->department = "information System";
+    c.addPrerequisite(c2);
+    c.addInstructor(i2);
+    c2.addInstructor(i);
+    s.registerCourse(c2);
 
+    students.insert({ s.getID(), s });
+    courses.insert({ c.getID(), c });
+    courses.insert({ c2.getID(), c2 });
+
+    students.at("2023170726").registerCourse(courses.at("course#1"));*/
+
+    //test files
+
+    /*for (auto it : students) {
+        cout << "ID " << it.first << endl;
+        cout << "name " << it.second.getName() << endl;
+        cout << "passwor " << it.second.getPassword() << endl;
+        cout << "gpa " << it.second.getGpa() << endl;
+        cout << "tele " << it.second.getTelephoneNumber() << endl;
+
+        cout << "courses.........\n";
+        deque<Course> c = it.second.getRegisteredCourses();
+        for (auto course : c) {
+            cout << "course ID " << course.getID() << endl;
+            cout << "course title " << course.getTitle() << endl;
+            cout << "course hours " << course.getCreditHours() << endl;
+            cout << "instructors........\n";
+            for (auto ins : course.getInstructors()) {
+                cout << "ID " << ins.ID << endl;
+                cout << "name " << ins.name << endl;
+                cout << "department " << ins.department << endl;
+            }
+
+            cout << "prerequisite......." << endl;
+            for (auto pre : course.getPrerequisite()) {
+                cout << "ID " << pre.getID() << endl;
+                cout << "title " << pre.getTitle() << endl;
+            }
+        }
+    }*/
 
 
     writeCourses(courses);
@@ -69,14 +134,14 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
 
     if (!file) {
         cout << "Error opening students file!" << endl;
-        return;
     }
 
     string line;
     queue<string> data;
     Student student;
 
-    getline(file, line); 
+    getline(file, line); // to ignore header 
+
     while (getline(file, line)) {    
         data = split(line, ',');
         student.setID(data.front()), data.pop();
@@ -90,11 +155,12 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
-        students.insert({student.getId(), student});
-        while(!data.empty()){
-            students.at(student.getId()).registerCourse(courses.at(data.front())), data.pop();
+        students.insert({student.getID(), student});
+        while(!data.empty()){  // get registered courses ids
+            students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
         }
     }
+
     file.close();
 }
 
@@ -106,9 +172,9 @@ void writeStudents(map<string,Student> students) {
         return;
     }
 
-    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Course ID\n";  // Header
+    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs\n";  // Header
     
-    stack<Course> registeredCourses;
+    deque<Course> registeredCourses;
 
     for (auto it : students) {
         file << it.first << ",";
@@ -116,46 +182,45 @@ void writeStudents(map<string,Student> students) {
         file << encrypt(it.second.getPassword(), 'M') << ",";
         file << it.second.getName() << ",";
         file << it.second.getNationality() << ",";
-        file << it.second.getNationalId() << ",";
+        file << it.second.getNationalID() << ",";
         file << it.second.getTelephoneNumber() << ",";
         file << it.second.getAddress() << ",";
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
         file << it.second.getCurrentCreditHours();
         registeredCourses = it.second.getRegisteredCourses();
-        while(!registeredCourses.empty())
-             file << "," << registeredCourses.top().getID(), registeredCourses.pop();
+        while (!registeredCourses.empty())
+            file << "," << registeredCourses.front().getID(), registeredCourses.pop_front();
         file << endl;
     }
+
     file.close();
 }
 
 void readCourses(map<string,Course>& courses) {
     ifstream file ("courses.csv");
     if (!file) {
-        cout << "Error opening file!" << endl;
-        return;
+        cout << "Error opening courses file!" << endl;
     }
 
     string line;
     queue<string> data;
     Course course;
-    Course prerequisite;
 
-    getline(file, line);
+    getline(file, line);  // to ignore header
+
     while (getline(file, line)) {    
         data = split(line, ',');
         course.setID(data.front()), data.pop();
         course.setTitle(data.front()), data.pop();
         course.setSyllabus(data.front()), data.pop();
         course.setCreditHours(stoi(data.front())), data.pop();
-        /*course.setNumOfInstructor(stoi(data.front())), data.pop();
-        course.setNumOfPrerequisite(stoi(data.front())), data.pop();*/
-
         courses.insert({course.getID(), course});
     }
+
     readInstructors(courses);
     readPrerequisites(courses);
+
     file.close();
 }
 
@@ -163,31 +228,25 @@ void writeCourses(map<string,Course> courses) {
     ofstream file("courses.csv");
 
     if (!file) {
-        cout << "Error opening file!" << endl;
+        cout << "Error opening courses file!" << endl;
         return;
     }
-
-    forward_list<Instructor> instructors;
-    forward_list<Course> prerequisites;
 
     file << "Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID\n";
     for (auto it : courses) {
         file << it.first << ",";
         file << it.second.getTitle() << ",";
         file << it.second.getSyllabus() << ",";
-        file << it.second.getCreditHours() << ",";
-        /*file << it.second.getNumOfInstructor() << ",";*/
-        instructors = it.second.getInstructors();
-        for (auto inst : instructors) {
-            file << "," << inst.id;  
+        file << it.second.getCreditHours();
+        for (auto inst : it.second.getInstructors()) {
+            file << "," << inst.ID;  
         }
-        /*file << "," << it.second.getNumOfPrerequisite();*/
-        prerequisites = it.second.getPrerequisite();
-        for (auto pre : prerequisites) {
+        for (auto pre : it.second.getPrerequisite()) {
             file << "," << pre.getID();
         }
        file << endl;
     }
+
     file.close();
 }
 
@@ -195,17 +254,18 @@ void readInstructors(map<string,Course>& courses) {
     ifstream file ("instructors.csv"); 
 
     if (!file) {
-        cout << "Error opening file!" << endl;
-        return;
+        cout << "Error opening instructors file!" << endl;
     }
+
     string line;
     queue<string> data;
     Instructor instructor;
 
     getline(file, line); // to ignore header
+
     while (getline(file, line)) {    
         data = split(line, ',');
-        instructor.id = data.front(), data.pop();
+        instructor.ID = data.front(), data.pop();
         instructor.name = data.front(), data.pop();
         instructor.department = data.front(), data.pop();
         instructor.courseID= data.front(), data.pop();
@@ -220,22 +280,21 @@ void writeInstructors(map<string,Course> courses) {
     ofstream file("instructors.csv"); 
 
     if (!file) {
-        cout << "Error opening file!" << endl;
+        cout << "Error opening instructors file!" << endl;
         return;
     }
 
-    forward_list<Instructor> instructors;
-
     file << "Instructor ID,Name,Department,Course ID\n";  // Header
+
     for (auto it : courses) {
-        instructors = it.second.getInstructors();
-        for(Instructor inst : instructors){
-            file << inst.id << ",";
+        for(auto inst : it.second.getInstructors()){
+            file << inst.ID << ",";
             file << inst.name << ",";
             file << inst.department << ",";
         }
         file << it.first << endl;
     }
+
     file.close();
 }
 
@@ -243,16 +302,15 @@ void readPrerequisites(map<string,Course>& courses) {
     ifstream file ("prerequisites.csv"); 
 
     if (!file) {
-        cout << "Error opening file!" << endl;
-        return;
+        cout << "Error opening prerequisites file!" << endl;
     }
+
     string line;
     queue<string> data;
-
     string courseID;
     string preCourseID;
 
-    getline(file, line); 
+    getline(file, line);  // to ignore headred
 
     while (getline(file, line)) {    
         data = split(line, ',');
@@ -262,6 +320,7 @@ void readPrerequisites(map<string,Course>& courses) {
             courses.at(courseID).addPrerequisite(courses.at(preCourseID));
         }
     }
+
     file.close();
 }
 
@@ -269,17 +328,15 @@ void writePrerequisites(map<string,Course> courses) {
     ofstream file("prerequisites.csv"); 
 
     if (!file) {
-        cout << "Error opening file!" << endl;
+        cout << "Error opening prerequisites file!" << endl;
         return;
     }
 
-    forward_list<Course> prerequisites;
+    file << "Course ID,Prerequisite Courses IDs\n";  // Header
 
-    file << "Course ID,Prerequisite Course ID\n";  // Header
     for (auto it : courses) {
         file << it.first;
-        prerequisites = it.second.getPrerequisite();
-        for (Course pre : prerequisites) {
+        for (auto pre : it.second.getPrerequisite()) {
             file << "," << pre.getID();
         }
         file << endl;

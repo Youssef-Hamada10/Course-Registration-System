@@ -9,7 +9,7 @@ protected:
 
 public:
 	Person(string username, string password);
-	Person();   //was added
+	Person();
 	string getUsername();
 	void setUsername(string username);
 	string getPassword();

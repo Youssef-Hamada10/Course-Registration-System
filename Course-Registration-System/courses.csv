@@ -1,2 +1,3 @@
 Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID
-1,physics,10 lecs,4,,1
+course#1,structure programing,10 lectures,4,instructor#2,course#2
+course#2,intro to computer,9 lectures,3,instructor#1
