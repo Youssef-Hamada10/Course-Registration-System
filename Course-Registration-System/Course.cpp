@@ -52,14 +52,6 @@ forward_list<Course> Course::getPrerequisite() {
     return prerequisites;
 }
 
-//void Course::setNumOfInstructor(int num) {
-//    this->numOfInstructor = num;
-//}
-//
-//int Course::getNumOfInstructor() {
-//    return numOfInstructor;
-//}
-
 forward_list<Instructor> Course::getInstructors() {
     return instructors;
 }
@@ -81,7 +73,6 @@ void Course::addInstructor(Instructor instructor) {
 
 void Course::removeInstructor(Instructor instructor) {
     instructors.remove(instructor);
-    //numOfInstructor--;
 }
 
 int Course::getCreditHours() {

@@ -39,11 +39,13 @@ public:
 	void setCurrentCreditHours(int currentCreditHours);
 	void searchForCourses(map<string,Course> courses);
 	void registerCourse(Course course);
-	void registerCourseInFiles(Course course);  // recently added
+	void registerCourseInFiles(Course);
 	void displayInfo();
 	void displayGrades();
 	void report();
+	deque<Course>* getRegisteredCourses1();
 	deque<Course> getRegisteredCourses();
+
 
 };
 

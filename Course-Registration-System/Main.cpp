@@ -74,11 +74,19 @@ int main() {
     courses.insert({ c.getID(), c });
     courses.insert({ c2.getID(), c2 });
 
-    students.at("2023170726").registerCourse(courses.at("course#1"));*/
+    students.at("2023170726").registerCourse(courses.at("course#1"))*/;
+
+    /*students.at("2023170726").registerCourse(courses.at("course#1"));
+    students.at("2023170726").registerCourse(courses.at("course#2"));*/
+
+
+
+    /*cout << courses.at("course#1").getID() << endl;*/
+
 
     //test files
 
-    /*for (auto it : students) {
+    for (auto it : students) {
         cout << "ID " << it.first << endl;
         cout << "name " << it.second.getName() << endl;
         cout << "passwor " << it.second.getPassword() << endl;
@@ -104,14 +112,13 @@ int main() {
                 cout << "title " << pre.getTitle() << endl;
             }
         }
-    }*/
+    }
 
 
     writeCourses(courses);
     writeInstructors(courses);
     writePrerequisites(courses);
     writeStudents(students);
-
 
 }
 
@@ -157,7 +164,8 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
         students.insert({student.getID(), student});
         while(!data.empty()){  // get registered courses ids
-            students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
+            students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(data.front())), data.pop();
+            //students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
         }
     }
 

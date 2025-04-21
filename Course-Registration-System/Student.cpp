@@ -109,6 +109,10 @@ void Student::displayGrades() {
 void Student::report() {
 }
 
+deque<Course>* Student::getRegisteredCourses1() {
+    return &registeredCourses;
+}
+
 deque<Course> Student::getRegisteredCourses() {
-    return registeredCourses;
+	return registeredCourses;
 }
