@@ -1,32 +1,33 @@
-Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID,
-BSC121,Physics 1,10 Lectures,3,,,
-BSC122,Calculus 1,10 Lectures,3,,,
-HUM110,English Language 1,10 Lectures,2,,,
-BSC123,Probability & Statistical,10 Lectures,3,,,
-STU130,Profesional Ethics,10 Lectures,2,,,
-CIS150,Structured Programming,10 Lectures,3,,CIS160,
-CIS124,Electronics,10 Lectures,4,,BSC121,
-BSC125,Calculus 2,10 Lectures,3,,BSC122,
-BSC126,Physics 2,10 Lectures,3,,BSC121,
-HUM113,Rebort Writing,10 Lectures,2,,,
-CIS250,Object oriented Programming,10 Lectures,3,,CIS150,
-BSC221,Discrete Mathematics,10 Lectures,3,,,
-CIS260,Logic Design,10 Lectures,3,,BSC121,
-CIS280,Database Management Systems,10 Lectures,3,,CIS150,
-CIS240,Statistical Analysis,10 Lectures,3,,BSC123,
-CIS220,Computer Organization & Architecture,10 Lectures,3,,CIS260,
-CIS270,Data Structure,10 Lectures,3,,CIS250,
-BSC225,Linear Algebra,10 Lectures,3,,,
-CIS230,Operations Research,10 Lectures,3,,,
-CIS243,Artificial Intelligence,10 Lectures,3,,CIS150,
-CIS353,Operating System,10 Lectures,3,,CIS220,
-CIS365,Computer Networks,10 Lectures,3,,CIS160,
-CIS290,System Analysis & Design,10 Lectures,3,,CIS280,
-SCO311,Computer Graphics,10 Lectures,3,,CIS150,
-INF311,Data Mining,10 Lectures,3,,CIS280,
-CIS380,Software Engineering,10 Lectures,3,,CIS150,
-CIS340,Analysis & Design of Algorithms,10 Lectures,3,,CIS150,
-CSC330,Pattern Recognition,10 Lectures,3,,CIS150,BSC123
-CSC340,Natural Language Processing,10 Lectures,3,,CIS150,
-CSC360,Compiler Theory,10 Lectures,3,,BSC221,
-CSC350,Concepts of Programming Languages,10 Lectures,3,,CIS250,
+Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID
+CIS160,Intro to Computer,10 Lectures,3,INS#1,
+BSC121,Physics 1,10 Lectures,3,INS#2&INS#3,
+BSC122,Calculus 1,10 Lectures,3,INS#4&INS#5,
+HUM110,English Language 1,10 Lectures,2,INS#6,
+BSC123,Probability & Statistical,10 Lectures,3,INS#7&INS#8,
+STU130,Profesional Ethics,10 Lectures,2,INS#9,
+CIS150,Structured Programming,10 Lectures,3,INS#10,CIS160
+CIS124,Electronics,10 Lectures,4,INS#11,BSC121
+BSC125,Calculus 2,10 Lectures,3,INS#12,BSC122
+BSC126,Physics 2,10 Lectures,3,INS#13&INS#14,BSC121
+HUM113,Rebort Writing,10 Lectures,2,INS#15&INS#16,
+CIS250,Object oriented Programming,10 Lectures,3,INS#17,CIS150
+BSC221,Discrete Mathematics,10 Lectures,3,INS#18,
+CIS260,Logic Design,10 Lectures,3,INS#19&INS#20,BSC121
+CIS280,Database Management Systems,10 Lectures,3,INS#21&INS#22,CIS150
+CIS240,Statistical Analysis,10 Lectures,3,INS#23&INS#24,BSC123
+CIS220,Computer Organization & Architecture,10 Lectures,3,INS#25,CIS260
+CIS270,Data Structure,10 Lectures,3,INS#26&INS#27,CIS250
+BSC225,Linear Algebra,10 Lectures,3,INS#28,
+CIS230,Operations Research,10 Lectures,3,INS#29&INS#30,
+CIS243,Artificial Intelligence,10 Lectures,3,INS#31,CIS150
+CIS353,Operating System,10 Lectures,3,INS#32,CIS220
+CIS365,Computer Networks,10 Lectures,3,INS#33,CIS160
+CIS290,System Analysis & Design,10 Lectures,3,INS#34,CIS280
+SCO311,Computer Graphics,10 Lectures,3,INS#35,CIS150
+INF311,Data Mining,10 Lectures,3,INS#36,CIS280
+CIS380,Software Engineering,10 Lectures,3,INS#37&INS#38,CIS150
+CIS340,Analysis & Design of Algorithms,10 Lectures,3,INS#39,CIS150
+CSC330,Pattern Recognition,10 Lectures,3,INS#40&INS#41,CIS150&BSC123
+CSC340,Natural Language Processing,10 Lectures,3,INS#42,CIS150
+CSC360,Compiler Theory,10 Lectures,3,INS#43,BSC221
+CSC350,Concepts of Programming Languages,10 Lectures,3,INS#44,CIS250

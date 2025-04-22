@@ -68,49 +68,30 @@ int main() {
     c.addPrerequisite(c2);
     c.addInstructor(i2);
     c2.addInstructor(i);
-    s.registerCourse(c2);
 
     students.insert({ s.getID(), s });
     courses.insert({ c.getID(), c });
     courses.insert({ c2.getID(), c2 });
 
-    students.at("2023170726").registerCourse(courses.at("course#1"))*/;
-
-    /*students.at("2023170726").registerCourse(courses.at("course#1"));
+    students.at("2023170726").registerCourse(courses.at("course#1"));
     students.at("2023170726").registerCourse(courses.at("course#2"));*/
 
 
-
-    /*cout << courses.at("course#1").getID() << endl;*/
-
-
-    //test files
-
+    cout << "students..........\n";
+    deque<Course> d;
     for (auto it : students) {
-        cout << "ID " << it.first << endl;
-        cout << "name " << it.second.getName() << endl;
-        cout << "passwor " << it.second.getPassword() << endl;
-        cout << "gpa " << it.second.getGpa() << endl;
-        cout << "tele " << it.second.getTelephoneNumber() << endl;
-
-        cout << "courses.........\n";
-        deque<Course> c = it.second.getRegisteredCourses();
-        for (auto course : c) {
-            cout << "course ID " << course.getID() << endl;
-            cout << "course title " << course.getTitle() << endl;
-            cout << "course hours " << course.getCreditHours() << endl;
-            cout << "instructors........\n";
-            for (auto ins : course.getInstructors()) {
-                cout << "ID " << ins.ID << endl;
-                cout << "name " << ins.name << endl;
-                cout << "department " << ins.department << endl;
+        cout << it.first << " ";
+        cout << it.second.getName() << " " << it.second.getPassword() << " ";
+        cout << it.second.getCurrentCreditHours() << " "<< it.second.getNationalID() << " ";
+        cout << it.second.getTelephoneNumber() << " ";
+        d = it.second.getRegisteredCourses();
+        for (auto c : d) {
+            while (!d.empty()) {
+                cout << d.front().getTitle() << " ";
+                d.pop_front(); 
+            
             }
-
-            cout << "prerequisite......." << endl;
-            for (auto pre : course.getPrerequisite()) {
-                cout << "ID " << pre.getID() << endl;
-                cout << "title " << pre.getTitle() << endl;
-            }
+            cout << endl;
         }
     }
 
@@ -145,6 +126,7 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
 
     string line;
     queue<string> data;
+    queue<string> IDs;
     Student student;
 
     getline(file, line); // to ignore header 
@@ -162,11 +144,23 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
+
         students.insert({student.getID(), student});
-        while(!data.empty()){  // get registered courses ids
-            students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(data.front())), data.pop();
-            //students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
+
+        // the updated part
+        if (!data.empty()) {
+            IDs = split(data.front(), '&'), data.pop();
+            while (!IDs.empty()) {  // get registered courses ids
+                //students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(registerdCourses.front())), registerdCourses.pop();
+                students[student.getID()].registerCourseInFiles(courses[IDs.front()]), IDs.pop();
+                //students[(student.getID())].registerCourseInFiles(courses.at(IDs.front())), IDs.pop();
+            }
         }
+
+        //while(!data.empty()){  // get registered courses ids
+        //    students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(data.front())), data.pop();
+        //    //students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
+        //}
     }
 
     file.close();
@@ -183,6 +177,7 @@ void writeStudents(map<string,Student> students) {
     file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs\n";  // Header
     
     deque<Course> registeredCourses;
+    string IDs;
 
     for (auto it : students) {
         file << it.first << ",";
@@ -196,9 +191,15 @@ void writeStudents(map<string,Student> students) {
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
         file << it.second.getCurrentCreditHours();
+
         registeredCourses = it.second.getRegisteredCourses();
-        while (!registeredCourses.empty())
-            file << "," << registeredCourses.front().getID(), registeredCourses.pop_front();
+        IDs = "";
+
+        while (!registeredCourses.empty()) {
+            IDs.append(registeredCourses.front().getID()), registeredCourses.pop_front();
+            IDs.append("&");
+        }
+        file << "," << IDs.substr(0, IDs.size() - 1);
         file << endl;
     }
 
@@ -240,18 +241,32 @@ void writeCourses(map<string,Course> courses) {
         return;
     }
 
+    string instructorsIDs;
+    string prerequisitesIDs;
+
     file << "Course ID,Title,Syllabus,Credit Hours,Instructor ID,Prerequisite ID\n";
+
     for (auto it : courses) {
         file << it.first << ",";
         file << it.second.getTitle() << ",";
         file << it.second.getSyllabus() << ",";
         file << it.second.getCreditHours();
+        instructorsIDs = "";
+        prerequisitesIDs = "";
+
         for (auto inst : it.second.getInstructors()) {
-            file << "," << inst.ID;  
+            instructorsIDs.append(inst.ID);
+            instructorsIDs.append("&");  
         }
+        file << "," << instructorsIDs.substr(0, instructorsIDs.size() - 1);
+
         for (auto pre : it.second.getPrerequisite()) {
-            file << "," << pre.getID();
+            prerequisitesIDs.append(pre.getID());
+            prerequisitesIDs.append("&");
         }
+        if(!it.second.getPrerequisite().empty())
+            file << "," << prerequisitesIDs.substr(0, prerequisitesIDs.size() - 1);
+
        file << endl;
     }
 
@@ -278,7 +293,7 @@ void readInstructors(map<string,Course>& courses) {
         instructor.department = data.front(), data.pop();
         instructor.courseID= data.front(), data.pop();
 
-        courses.at(instructor.courseID).addInstructor(instructor);
+        courses[(instructor.courseID)].addInstructor(instructor);
     }
 
     file.close();
@@ -299,8 +314,8 @@ void writeInstructors(map<string,Course> courses) {
             file << inst.ID << ",";
             file << inst.name << ",";
             file << inst.department << ",";
+            file << it.first << endl;
         }
-        file << it.first << endl;
     }
 
     file.close();
@@ -315,6 +330,7 @@ void readPrerequisites(map<string,Course>& courses) {
 
     string line;
     queue<string> data;
+    queue<string> IDs;
     string courseID;
     string preCourseID;
 
@@ -322,11 +338,22 @@ void readPrerequisites(map<string,Course>& courses) {
 
     while (getline(file, line)) {    
         data = split(line, ',');
+
         courseID = data.front(), data.pop();
-        while (!data.empty()) {
+
+        // the updated part
+        if (!data.empty()) {
+            IDs = split(data.front(), '&'), data.pop();
+            while (!IDs.empty()) {
+                preCourseID = IDs.front(), IDs.pop();
+                courses[(courseID)].addPrerequisite(courses[(preCourseID)]);
+            }
+        }
+
+        /*while (!data.empty()) {
             preCourseID = data.front(), data.pop();
             courses.at(courseID).addPrerequisite(courses.at(preCourseID));
-        }
+        }*/
     }
 
     file.close();
@@ -340,13 +367,21 @@ void writePrerequisites(map<string,Course> courses) {
         return;
     }
 
+    string IDs;
+
     file << "Course ID,Prerequisite Courses IDs\n";  // Header
 
     for (auto it : courses) {
         file << it.first;
+        IDs = "";
         for (auto pre : it.second.getPrerequisite()) {
-            file << "," << pre.getID();
+            IDs.append(pre.getID());
+            IDs.append("&");
         }
+
+        if(!it.second.getPrerequisite().empty())
+            file << "," << IDs.substr(0, IDs.size() - 1);
+
         file << endl;
     }
 

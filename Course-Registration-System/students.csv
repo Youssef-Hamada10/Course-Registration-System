@@ -1,6 +1,6 @@
 Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs
 STU#1,STU#1@cis.asu.edu.eg," ,?m
-                 % ()",Omar Ahmed,Egyption,3.04075E+13,01015200345,Cairo,3.44,1,0,
+                 % ()",Omar Ahmed,Egyption,3.04075E+13,01015200345,Cairo,3.44,1,6,CIS160&BSC121
 STU#2,STU#2@cis.asu.edu.eg,"
              !$m""%, ()",Ali Mohamed,Egyption,4.02054E+13,01201415736,Gize,3.1,2,0,
 STU#3,STU#3@cis.asu.edu.eg,"%,!()m,% ""8)",Khaled Mahmoud,Egyption,3.00209E+13,01145800163,Giza,2.21,2,0,
