@@ -1,10 +1,14 @@
 #include "Admin.h"
 
-void Admin::manageGrades() {
+void Admin::manageGrades()
+{
 }
 
-void Admin::setPrerequisites() {
+void Admin::setPrerequisites()
+{
 }
 
-void Admin::uploadCourseDescription() {
+void Admin::uploadCourseDescription()
+{
 }
+

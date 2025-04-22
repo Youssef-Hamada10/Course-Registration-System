@@ -1,23 +1,23 @@
 #include <string>
 #include <vector>
-#include <list>
 #include <forward_list>
 
 using namespace std;
 
 struct Instructor {
-	string courseID;
-	string ID;
+	string courseId;
+	string id;
 	string name;
 	string department;
+
 	bool operator==(const Instructor& other) const {
-		return ID == other.ID;
+		return id == other.id;
 	}
 };
 
 class Course {
 private:
-	string ID;
+	string id;
 	string title;
 	string syllabus;
 	forward_list<Course> prerequisites;
@@ -25,22 +25,23 @@ private:
 	int creditHours;
 
 public:
-	Course(string ID, string title, string syllabus, forward_list<Course> prerequisite, int creditHours, forward_list<Instructor> instructors);
+	Course(string id, string title, string syllabus, forward_list<Course> prerequisite, int creditHours, forward_list<Instructor> instructors);
+	Course(const Course& course);
 	Course();
-	void setID(string);
-	string getID();
+	string getId();
+	void setId(string id);
 	string getTitle();
 	void setTitle(string title);
 	string getSyllabus();
 	void setSyllabus(string syllabus);
 	forward_list<Course> getPrerequisite();
-	forward_list<Instructor> getInstructors();
 	void addPrerequisite(Course course);
 	void removePrerequisite(Course course);
 	void addInstructor(Instructor instructor);
 	void removeInstructor(Instructor instructor);
 	int getCreditHours();
 	void setCreditHours(int creditHours);
+	forward_list<Instructor> getInstructors();
 	void displayCourseInfo();
 	bool operator==(const Course& other) const;
 };

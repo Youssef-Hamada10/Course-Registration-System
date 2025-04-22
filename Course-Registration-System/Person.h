@@ -2,7 +2,8 @@
 
 using namespace std;
 
-class Person {
+class Person
+{
 protected:
 	string username;
 	string password;
@@ -15,3 +16,4 @@ public:
 	string getPassword();
 	void setPassword(string password);
 };
+

@@ -10,103 +10,58 @@
 using namespace std;
 
 queue<string> split(string line, char ch);
-void readStudents(map<string,Student>& students, map<string,Course>& courses);
-void readCourses(map<string,Course>& courses);
-void readInstructors(map<string,Course>& courses);
-void readPrerequisites(map<string,Course>& courses);
-void writeStudents(map<string,Student> students);
-void writeCourses(map<string,Course> courses);
-void writeInstructors(map<string,Course> courses);
-void writePrerequisites(map<string,Course> courses);
+void readStudents(map<string, Student>& students, map<string, Course>& courses);
+void readCourses(map<string, Course>& courses);
+void readInstructors(map<string, Course>& courses);
+void readPrerequisites(map<string, Course>& courses);
+void writeStudents(map<string, Student> students);
+void writeCourses(map<string, Course> courses);
+void writeInstructors(map<string, Course> courses);
+void writePrerequisites(map<string, Course> courses);
 string encrypt(const string& input, char key);
 
 int main() {
 
-    map<string,Student> students;
-    map<string,Course> courses;
+    map<string, Student> students;
+    map<string, Course> courses;
 
     readCourses(courses);
     readStudents(students, courses);
 
-    /*Student s;
-    s.setID("2023170726");
-    s.setUsername("omar123");
-    s.setPassword("123");
-    s.setName("omar ali");
-    s.setAddress("cairo");
-    s.setCurrentCreditHours(60);
-    s.setGpa(3.44);
-    s.setNationalID("30405060");
-    s.setNationality("egyption");
-    s.setStudyLvl(3);
-    s.setTelephoneNumber("01014800479");
-
-    Course c;
-    c.setID("course#1");
-    c.setCreditHours(4);
-    c.setTitle("structure programing");
-    c.setSyllabus("10 lectures");
-    
-    Course c2;
-    c2.setCreditHours(3);
-    c2.setID("course#2");
-    c2.setSyllabus("9 lectures");
-    c2.setTitle("intro to computer");
-
-    Instructor i;
-    i.ID = "instructor#1";
-    i.department = "information system";
-    i.name = "naglaa fathy";
-    i.courseID = "course#2";
-
-    Instructor i2;
-    i2.ID = "instructor#2";
-    i2.department = "basic science";
-    i2.name = "salsabil amin";
-    i2.courseID = "course#1";
-
-    c.addPrerequisite(c2);
-    c.addInstructor(i2);
-    c2.addInstructor(i);
-
-    students.insert({ s.getID(), s });
-    courses.insert({ c.getID(), c });
-    courses.insert({ c2.getID(), c2 });
-
-    students.at("2023170726").registerCourse(courses.at("course#1"));
-    students.at("2023170726").registerCourse(courses.at("course#2"));*/
-
-
-    cout << "students..........\n";
-    deque<Course> d;
-    for (auto it : students) {
+    deque<Course>* d;
+    for (auto& it : students) {
         cout << it.first << " ";
         cout << it.second.getName() << " " << it.second.getPassword() << " ";
-        cout << it.second.getCurrentCreditHours() << " "<< it.second.getNationalID() << " ";
+        cout << it.second.getCurrentCreditHours() << " " << it.second.getNationalId() << " ";
         cout << it.second.getTelephoneNumber() << " ";
         d = it.second.getRegisteredCourses();
-        for (auto c : d) {
-            while (!d.empty()) {
-                cout << d.front().getTitle() << " ";
-                d.pop_front(); 
-            
+        for (auto& c : *d) {
+            while (!d->empty()) {
+                cout << d->front().getTitle() << " ";
+                d->pop_front();
+
             }
             cout << endl;
         }
+        cout << endl;
     }
+
+    /*for (auto& it : courses) {
+        cout << "ID: " << it.first << " title " << it.second.getTitle() << " credit hours " << it.second.getCreditHours() << endl;
+    }*/
 
 
     writeCourses(courses);
     writeInstructors(courses);
     writePrerequisites(courses);
     writeStudents(students);
-
+    return 0;
 }
 
 queue<string> split(string line, char ch) {
     int initIndex = 0;
     int finalIndex;
-    queue<string> q; 
+    queue<string> q;
     while (true) {
         finalIndex = line.find(ch);
         q.push(line.substr(initIndex, finalIndex));
@@ -117,8 +72,8 @@ queue<string> split(string line, char ch) {
     return q;
 }
 
-void readStudents(map<string,Student>& students, map<string,Course>& courses) {
-    ifstream file ("students.csv");
+void readStudents(map<string, Student>& students, map<string, Course>& courses) {
+    ifstream file("students.csv");
 
     if (!file) {
         cout << "Error opening students file!" << endl;
@@ -130,43 +85,34 @@ void readStudents(map<string,Student>& students, map<string,Course>& courses) {
     Student student;
 
     getline(file, line); // to ignore header 
-
-    while (getline(file, line)) {    
+    while (getline(file, line)) {
         data = split(line, ',');
-        student.setID(data.front()), data.pop();
+        student.setId(data.front()), data.pop();
         student.setUsername(data.front()), data.pop();
-        student.setPassword(encrypt(data.front(), 'M')), data.pop();
+        student.setPassword(data.front()), data.pop();
         student.setName(data.front()), data.pop();
         student.setNationality(data.front()), data.pop();
-        student.setNationalID(data.front()), data.pop();
+        student.setNationalId(data.front()), data.pop();
         student.setTelephoneNumber(data.front()), data.pop();
         student.setAddress(data.front()), data.pop();
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
 
-        students.insert({student.getID(), student});
+        students.insert({ student.getId(), student });
 
-        // the updated part
         if (!data.empty()) {
             IDs = split(data.front(), '&'), data.pop();
             while (!IDs.empty()) {  // get registered courses ids
-                //students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(registerdCourses.front())), registerdCourses.pop();
-                students[student.getID()].registerCourseInFiles(courses[IDs.front()]), IDs.pop();
-                //students[(student.getID())].registerCourseInFiles(courses.at(IDs.front())), IDs.pop();
+                students[student.getId()].getRegisteredCourses()->push_back(courses[IDs.front()]), IDs.pop();
             }
         }
-
-        //while(!data.empty()){  // get registered courses ids
-        //    students.at(student.getID()).getRegisteredCourses1()->push_back(courses.at(data.front())), data.pop();
-        //    //students.at(student.getID()).registerCourseInFiles(courses.at(data.front())), data.pop();
-        //}
     }
 
     file.close();
 }
 
-void writeStudents(map<string,Student> students) {
+void writeStudents(map<string, Student> students) {
     ofstream file("students.csv");
 
     if (!file) {
@@ -175,39 +121,38 @@ void writeStudents(map<string,Student> students) {
     }
 
     file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs\n";  // Header
-    
-    deque<Course> registeredCourses;
+
     string IDs;
 
-    for (auto it : students) {
+    for (auto& it : students) {
         file << it.first << ",";
         file << it.second.getUsername() << ",";
-        file << encrypt(it.second.getPassword(), 'M') << ",";
+        file << it.second.getPassword() << ",";
         file << it.second.getName() << ",";
         file << it.second.getNationality() << ",";
-        file << it.second.getNationalID() << ",";
+        file << it.second.getNationalId() << ",";
         file << it.second.getTelephoneNumber() << ",";
         file << it.second.getAddress() << ",";
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
         file << it.second.getCurrentCreditHours();
 
-        registeredCourses = it.second.getRegisteredCourses();
         IDs = "";
 
-        while (!registeredCourses.empty()) {
-            IDs.append(registeredCourses.front().getID()), registeredCourses.pop_front();
+        while (!it.second.getRegisteredCourses()->empty()) {
+            IDs.append(it.second.getRegisteredCourses()->front().getId()), it.second.getRegisteredCourses()->pop_front();
             IDs.append("&");
         }
-        file << "," << IDs.substr(0, IDs.size() - 1);
+        if(!it.second.getRegisteredCourses()->empty())
+            file << "," << IDs.substr(0, IDs.size() - 1);
         file << endl;
     }
 
     file.close();
 }
 
-void readCourses(map<string,Course>& courses) {
-    ifstream file ("courses.csv");
+void readCourses(map<string, Course>& courses) {
+    ifstream file("courses.csv");
     if (!file) {
         cout << "Error opening courses file!" << endl;
     }
@@ -218,13 +163,14 @@ void readCourses(map<string,Course>& courses) {
 
     getline(file, line);  // to ignore header
 
-    while (getline(file, line)) {    
+    while (getline(file, line)) {
         data = split(line, ',');
-        course.setID(data.front()), data.pop();
+        course.setId(data.front()), data.pop();
         course.setTitle(data.front()), data.pop();
         course.setSyllabus(data.front()), data.pop();
         course.setCreditHours(stoi(data.front())), data.pop();
-        courses.insert({course.getID(), course});
+
+        courses.insert({ course.getId(), course });
     }
 
     readInstructors(courses);
@@ -233,7 +179,7 @@ void readCourses(map<string,Course>& courses) {
     file.close();
 }
 
-void writeCourses(map<string,Course> courses) {
+void writeCourses(map<string, Course> courses) {
     ofstream file("courses.csv");
 
     if (!file) {
@@ -255,26 +201,26 @@ void writeCourses(map<string,Course> courses) {
         prerequisitesIDs = "";
 
         for (auto inst : it.second.getInstructors()) {
-            instructorsIDs.append(inst.ID);
-            instructorsIDs.append("&");  
+            instructorsIDs.append(inst.id);
+            instructorsIDs.append("&");
         }
         file << "," << instructorsIDs.substr(0, instructorsIDs.size() - 1);
 
         for (auto pre : it.second.getPrerequisite()) {
-            prerequisitesIDs.append(pre.getID());
+            prerequisitesIDs.append(pre.getId());
             prerequisitesIDs.append("&");
         }
-        if(!it.second.getPrerequisite().empty())
+        if (!it.second.getPrerequisite().empty())
             file << "," << prerequisitesIDs.substr(0, prerequisitesIDs.size() - 1);
 
-       file << endl;
+        file << endl;
     }
 
     file.close();
 }
 
-void readInstructors(map<string,Course>& courses) {
-    ifstream file ("instructors.csv"); 
+void readInstructors(map<string, Course>& courses) {
+    ifstream file("instructors.csv");
 
     if (!file) {
         cout << "Error opening instructors file!" << endl;
@@ -286,21 +232,21 @@ void readInstructors(map<string,Course>& courses) {
 
     getline(file, line); // to ignore header
 
-    while (getline(file, line)) {    
+    while (getline(file, line)) {
         data = split(line, ',');
-        instructor.ID = data.front(), data.pop();
+        instructor.id = data.front(), data.pop();
         instructor.name = data.front(), data.pop();
         instructor.department = data.front(), data.pop();
-        instructor.courseID= data.front(), data.pop();
+        instructor.courseId = data.front(), data.pop();
 
-        courses[(instructor.courseID)].addInstructor(instructor);
+        courses[(instructor.courseId)].addInstructor(instructor);
     }
 
     file.close();
 }
 
-void writeInstructors(map<string,Course> courses) {
-    ofstream file("instructors.csv"); 
+void writeInstructors(map<string, Course> courses) {
+    ofstream file("instructors.csv");
 
     if (!file) {
         cout << "Error opening instructors file!" << endl;
@@ -310,8 +256,8 @@ void writeInstructors(map<string,Course> courses) {
     file << "Instructor ID,Name,Department,Course ID\n";  // Header
 
     for (auto it : courses) {
-        for(auto inst : it.second.getInstructors()){
-            file << inst.ID << ",";
+        for (auto inst : it.second.getInstructors()) {
+            file << inst.id << ",";
             file << inst.name << ",";
             file << inst.department << ",";
             file << it.first << endl;
@@ -321,8 +267,8 @@ void writeInstructors(map<string,Course> courses) {
     file.close();
 }
 
-void readPrerequisites(map<string,Course>& courses) {
-    ifstream file ("prerequisites.csv"); 
+void readPrerequisites(map<string, Course>& courses) {
+    ifstream file("prerequisites.csv");
 
     if (!file) {
         cout << "Error opening prerequisites file!" << endl;
@@ -336,12 +282,11 @@ void readPrerequisites(map<string,Course>& courses) {
 
     getline(file, line);  // to ignore headred
 
-    while (getline(file, line)) {    
+    while (getline(file, line)) {
         data = split(line, ',');
 
         courseID = data.front(), data.pop();
 
-        // the updated part
         if (!data.empty()) {
             IDs = split(data.front(), '&'), data.pop();
             while (!IDs.empty()) {
@@ -349,18 +294,14 @@ void readPrerequisites(map<string,Course>& courses) {
                 courses[(courseID)].addPrerequisite(courses[(preCourseID)]);
             }
         }
-
-        /*while (!data.empty()) {
-            preCourseID = data.front(), data.pop();
-            courses.at(courseID).addPrerequisite(courses.at(preCourseID));
-        }*/
+        courses.erase("");
     }
 
     file.close();
 }
 
-void writePrerequisites(map<string,Course> courses) {
-    ofstream file("prerequisites.csv"); 
+void writePrerequisites(map<string, Course> courses) {
+    ofstream file("prerequisites.csv");
 
     if (!file) {
         cout << "Error opening prerequisites file!" << endl;
@@ -375,22 +316,22 @@ void writePrerequisites(map<string,Course> courses) {
         file << it.first;
         IDs = "";
         for (auto pre : it.second.getPrerequisite()) {
-            IDs.append(pre.getID());
+            IDs.append(pre.getId());
             IDs.append("&");
         }
 
-        if(!it.second.getPrerequisite().empty())
+        if (!it.second.getPrerequisite().empty())
             file << "," << IDs.substr(0, IDs.size() - 1);
 
         file << endl;
     }
 
-    file.close(); 
+    file.close();
 }
 
 string encrypt(const string& input, char key) {
     string output = input;
-    for (int i = 0; i < input.size(); i++){
+    for (int i = 0; i < input.size(); i++) {
         output[i] = input[i] ^ key;
     }
     return output;

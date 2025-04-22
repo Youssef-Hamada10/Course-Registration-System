@@ -1,13 +1,8 @@
 Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs
-STU#1,STU#1@cis.asu.edu.eg," ,?m
-                 % ()",Omar Ahmed,Egyption,3.04075E+13,01015200345,Cairo,3.44,1,6,CIS160&BSC121
-STU#2,STU#2@cis.asu.edu.eg,"
-             !$m""%, ()",Ali Mohamed,Egyption,4.02054E+13,01201415736,Gize,3.1,2,0,
-STU#3,STU#3@cis.asu.edu.eg,"%,!()m,% ""8)",Khaled Mahmoud,Egyption,3.00209E+13,01145800163,Giza,2.21,2,0,
-STU#4,STU#4@cis.asu.edu.eg,"
-             $>%,m
-                  !$",Aisha Ali,Egyption,2.01588E+13,01554300125,Cairo,2.33,4,0,
-STU#5,STU#5@cis.asu.edu.eg,"$',m ,?",Khadija Omar,Egyption,3.05012E+13,01015800147,Alexandria,3.28,2,0,
-STU#6,STU#6@cis.asu.edu.eg,"
-             /)8!!,m ,?",Abdulla Omar,Egyption,2.01531E+13,01012500789,Cairo,2.89,3,0,
-STU#7,STU#7@cis.asu.edu.eg,"""%, ()m,*)4",Mohamed Magdy,Egyption,3.01587E+13,01116522146,Cairo,3.18,3,0,
+STU#1,STU#1@cis.asu.edu.eg,123,Omar Ahmed,Egyption,3050806011,01015200345,Cairo,3.44,1,0
+STU#2,STU#2@cis.asu.edu.eg,456,Ali Mohamed,Egyption,3050806011,01201415736,Gize,3.1,2,0
+STU#3,STU#3@cis.asu.edu.eg,789,Khaled Mahmoud,Egyption,3050806011,01145800163,Giza,2.21,2,0
+STU#4,STU#4@cis.asu.edu.eg,1011,Aisha Ali,Egyption,3050806011,01554300125,Cairo,2.33,4,0
+STU#5,STU#5@cis.asu.edu.eg,1213,Khadija Omar,Egyption,3050806011,01015800147,Alexandria,3.28,2,0
+STU#6,STU#6@cis.asu.edu.eg,1415,Abdulla Omar,Egyption,3050806011,01012500789,Cairo,2.89,3,0
+STU#7,STU#7@cis.asu.edu.eg,1617,Mohamed Magdy,Egyption,3050806011,01116522146,Cairo,3.18,3,0

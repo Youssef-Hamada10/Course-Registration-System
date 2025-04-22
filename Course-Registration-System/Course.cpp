@@ -1,27 +1,35 @@
 #include "Course.h"
 #include <iostream>
 
-Course::Course(string ID, string title, string syllabus, forward_list<Course> prerequisites, int creditHours, forward_list<Instructor> instructors) {
-    this->ID = ID;
+Course::Course(string id, string title, string syllabus, forward_list<Course> prerequisites, int creditHours, forward_list<Instructor> instructors) {
+    this->id = id;
     this->title = title;
     this->syllabus = syllabus;
     this->prerequisites = prerequisites;
     this->creditHours = creditHours;
     this->instructors = instructors;
-    //this->numOfInstructor = 0; // was added
-    //this->numOfPrerequisite = 0; // was added
+}
+
+Course::Course(const Course& course)
+{
+    this->id = course.id;
+    this->title = course.title;
+    this->syllabus = course.syllabus;
+    this->prerequisites = course.prerequisites;
+    this->creditHours = course.creditHours;
+    this->instructors = course.instructors;
 }
 
 Course::Course() {
-    // default constructor
+    creditHours = 0;
 }
 
-void Course::setID(string ID) {
-    this->ID = ID;
+string Course::getId() {
+    return id;
 }
 
-string Course::getID() {
-    return ID;
+void Course::setId(string id) {
+    this->id = id;
 }
 
 string Course::getTitle() {
@@ -40,35 +48,20 @@ void Course::setSyllabus(string syllabus) {
     this->syllabus = syllabus;
 }
 
-//void Course::setNumOfPrerequisite(int num) {
-//    this->numOfPrerequisite = num;
-//}
-//
-//int Course::getNumOfPrerequisite() {
-//    return numOfPrerequisite;
-//}
-
 forward_list<Course> Course::getPrerequisite() {
     return prerequisites;
 }
 
-forward_list<Instructor> Course::getInstructors() {
-    return instructors;
-}
-
 void Course::addPrerequisite(Course course) {
     prerequisites.push_front(course);
-    //numOfPrerequisite++;
 }
 
 void Course::removePrerequisite(Course course) {
     prerequisites.remove(course);
-    //numOfPrerequisite--;
 }
 
 void Course::addInstructor(Instructor instructor) {
     instructors.push_front(instructor);
-    //numOfInstructor++;
 }
 
 void Course::removeInstructor(Instructor instructor) {
@@ -83,10 +76,16 @@ void Course::setCreditHours(int creditHours) {
     this->creditHours = creditHours;
 }
 
+forward_list<Instructor> Course::getInstructors()
+{
+    return instructors;
+}
+
 void Course::displayCourseInfo() {
 
 }
 
 bool Course::operator==(const Course& other) const {
-    return this->ID == other.ID;
+    return this->id == other.id;
 }
+
