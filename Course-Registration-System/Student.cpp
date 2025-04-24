@@ -1,148 +1,115 @@
 #include "Student.h"
 #include <map>
 
-Student::Student(string username, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours)
-	: Person(username, password) {
-	this->id = id;
-	this->name = name;
-	this->nationalId = nationalId;
-	this->telephoneNumber = telephoneNumber;
-	this->address = address;
-	this->nationality = nationality;
-	this->gpa = gpa;
-	this->level = level;
-	this->currentCreditHours = currentCreditHours;
+Student::Student(string username, string password, string name, string ID, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours) :Person(username, password) {
+    this->id = ID;
+    this->name = name;
+    this->nationalId = nationalID;
+    this->telephoneNumber = telephoneNumber;
+    this->address = address;
+    this->nationality = nationality;
+    this->gpa = gpa;
+    this->level = level;
+    this->currentCreditHours = currentCreditHours;
 }
 
-Student::Student(const Student& student)
-	: Person(student.username, student.password) {
-	this->id = student.id;
-	this->name = student.name;
-	this->nationalId = student.nationalId;
-	this->telephoneNumber = student.telephoneNumber;
-	this->address = student.address;
-	this->nationality = student.nationality;
-	this->gpa = student.gpa;
-	this->level = student.level;
-	this->currentCreditHours = student.currentCreditHours;
+Student::Student() {
+    // default constructor
 }
 
-Student::Student()
-{
+string Student::getName() {
+    return name;
 }
 
-string Student::getId()
-{
-	return id;
+void Student::setName(string name) {
+    this->name = name;
 }
 
-void Student::setId(string id)
-{
-	this->id = id;
+string Student::getId() {
+    return id;
 }
 
-string Student::getName()
-{
-	return name;
+void Student::setId(string ID) {
+    this->id = ID;
 }
 
-void Student::setName(string name)
-{
-	this->name = name;
+string Student::getNationalId() {
+    return nationalId;
 }
 
-string Student::getNationalId()
-{
-	return nationalId;
+void Student::setNationalId(string nationalID) {
+    this->nationalId = nationalID;
 }
 
-void Student::setNationalId(string nationalId)
-{
-	this->nationalId = nationalId;
+string Student::getTelephoneNumber() {
+    return telephoneNumber;
 }
 
-string Student::getTelephoneNumber()
-{
-	return telephoneNumber;
+void Student::setTelephoneNumber(string telephoneNumber) {
+    this->telephoneNumber = telephoneNumber;
 }
 
-void Student::setTelephoneNumber(string telephoneNumber)
-{
-	this->telephoneNumber = telephoneNumber;
+string Student::getAddress() {
+    return address;
 }
 
-string Student::getAddress()
-{
-	return address;
+void Student::setAddress(string address) {
+    this->address = address;
 }
 
-void Student::setAddress(string address)
-{
-	this->address = address;
+string Student::getNationality() {
+    return nationality;
 }
 
-string Student::getNationality()
-{
-	return nationality;
+void Student::setNationality(string nationality) {
+    this->nationality = nationality;
 }
 
-void Student::setNationality(string nationality)
-{
-	this->nationality = nationality;
+float Student::getGpa() const {
+    return gpa;
 }
 
-float Student::getGpa() const
-{
-	return gpa;
+void Student::setGpa(float gpa) {
+    this->gpa = gpa;
 }
 
-void Student::setGpa(float gpa)
-{
-	this->gpa = gpa;
+int Student::getStudyLvl() const {
+    return level;
 }
 
-int Student::getStudyLvl() const
-{
-	return level;
+void Student::setStudyLvl(int level) {
+    this->level = level;
 }
 
-void Student::setStudyLvl(int level)
-{
-	this->level = level;
+int Student::getCurrentCreditHours() {
+    return currentCreditHours;
 }
 
-int Student::getCurrentCreditHours()
-{
-	return currentCreditHours;
+void Student::setCurrentCreditHours(int currentCreditHours) {
+    this->currentCreditHours = currentCreditHours;
 }
 
-deque<Course>* Student::getRegisteredCourses()
-{
-	return &registeredCourses;
+void Student::searchForCourses(map<string, Course> courses) {
 }
 
-void Student::setCurrentCreditHours(int currentCreditHours)
-{
-	this->currentCreditHours = currentCreditHours;
+void Student::registerCourse(Course course) {
+    this->registeredCourses.push_front(course);
 }
 
-void Student::searchForCourses(map<string, Course> Courses)
-{
+void Student::registerCourseInFiles(Course course) {
+    this->registeredCourses.push_back(course);
 }
 
-void Student::registerCourse(Course course)
-{
-	this->registeredCourses.push_front(course);
+void Student::displayInfo() {
 }
 
-void Student::displayInfo()
-{
+void Student::displayGrades() {
 }
 
-void Student::displayGrades()
-{
+void Student::report() {
 }
 
-void Student::report()
-{
+deque<Course> Student::getRegisteredCourses() {
+    return registeredCourses;
 }
+

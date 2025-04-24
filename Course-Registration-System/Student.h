@@ -1,10 +1,9 @@
 #include "Person.h"
 #include "Course.h"
-#include <map>
 #include <deque>
+#include <map>
 
-class Student : public Person
-{
+class Student : public Person {
 private:
 	string id;
 	string name;
@@ -18,31 +17,35 @@ private:
 	int currentCreditHours;
 
 public:
-	Student(string userName, string password, string name, string id, string nationalId, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
-	Student(const Student& student);
+	Student(string userName, string password, string name, string ID, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
 	Student();
+	void setId(string);
 	string getId();
-	void setId(string id);
 	string getName();
 	void setName(string name);
 	string getNationalId();
-	void setNationalId(string nationalId);
-	string getNationality();
-	void setNationality(string nationality);
+	void setNationalId(string);
 	string getTelephoneNumber();
 	void setTelephoneNumber(string telephoneNumber);
 	string getAddress();
 	void setAddress(string address);
+	string getNationality();
+	void setNationality(string);
 	float getGpa() const;
 	void setGpa(float gpa);
 	int getStudyLvl() const;
 	void setStudyLvl(int studyLvl);
 	int getCurrentCreditHours();
-	deque<Course>* getRegisteredCourses();
 	void setCurrentCreditHours(int currentCreditHours);
-	void searchForCourses(map<string, Course> Courses);
+	void searchForCourses(map<string, Course> courses);
 	void registerCourse(Course course);
+	void registerCourseInFiles(Course course);
 	void displayInfo();
 	void displayGrades();
 	void report();
+	deque<Course> getRegisteredCourses();
+
+
 };
+
+

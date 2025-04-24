@@ -28,28 +28,40 @@ int main() {
     readCourses(courses);
     readStudents(students, courses);
 
-    deque<Course>* d;
-    for (auto& it : students) {
-        cout << it.first << " ";
-        cout << it.second.getName() << " " << it.second.getPassword() << " ";
-        cout << it.second.getCurrentCreditHours() << " " << it.second.getNationalId() << " ";
-        cout << it.second.getTelephoneNumber() << " ";
-        d = it.second.getRegisteredCourses();
-        for (auto& c : *d) {
-            while (!d->empty()) {
-                cout << d->front().getTitle() << " ";
-                d->pop_front();
-
-            }
-            cout << endl;
-        }
-        cout << endl;
-    }
-
-    /*for (auto& it : courses) {
-        cout << "ID: " << it.first << " title " << it.second.getTitle() << " credit hours " << it.second.getCreditHours() << endl;
+    /*cout << "students..........\n";
+    deque<Course> d;
+    for (auto it : students) {
+        cout << "ID: " << it.first << "\t";
+        cout << "tele: " << it.second.getTelephoneNumber() << "\t";
+        cout << "SSN: " << it.second.getNationalId() << " \t";
+        cout << it.second.getRegisteredCourses().size() << endl;
     }*/
 
+
+    //cout << "courses......\n";
+    /*for (auto it : courses) {
+    cout << "ID: " << it.first << " credit hours " << it.second.getCreditHours() << endl;
+    }*/
+
+
+    //cout << "prerequisites........\n";
+    /*for (auto it : courses) {
+        cout << "ID: " << it.second.getId() << "\t";
+        for (auto p : it.second.getPrerequisite()) {
+            cout << "pre course " << p.getId() << "\t";
+        }
+        cout << endl;
+    }*/
+
+
+    //cout << "instructors.....\n";
+    /*for (auto it : courses) {
+        cout << "ID: " << it.first << "\t";
+        for (auto i : it.second.getInstructors()) {
+            cout << i.name << "\t";
+        }
+        cout << endl;
+    }*/
 
     writeCourses(courses);
     writeInstructors(courses);
@@ -93,7 +105,7 @@ void readStudents(map<string, Student>& students, map<string, Course>& courses) 
         student.setName(data.front()), data.pop();
         student.setNationality(data.front()), data.pop();
         student.setNationalId(data.front()), data.pop();
-        student.setTelephoneNumber(data.front()), data.pop();
+        student.setTelephoneNumber(data.front().insert(0, "0")), data.pop();
         student.setAddress(data.front()), data.pop();
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
@@ -101,10 +113,10 @@ void readStudents(map<string, Student>& students, map<string, Course>& courses) 
 
         students.insert({ student.getId(), student });
 
-        if (!data.empty()) {
+        if (!data.empty() && data.front() != "") {
             IDs = split(data.front(), '&'), data.pop();
-            while (!IDs.empty()) {  // get registered courses ids
-                students[student.getId()].getRegisteredCourses()->push_back(courses[IDs.front()]), IDs.pop();
+            while (!IDs.empty() && IDs.front() != "") {  // get registered courses ids
+                students[student.getId()].registerCourseInFiles(courses[IDs.front()]), IDs.pop();
             }
         }
     }
@@ -117,11 +129,11 @@ void writeStudents(map<string, Student> students) {
 
     if (!file) {
         cout << "Error opening students file!" << endl;
-        return;
     }
 
     file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs\n";  // Header
 
+    deque<Course> registeredCourses;
     string IDs;
 
     for (auto& it : students) {
@@ -137,17 +149,19 @@ void writeStudents(map<string, Student> students) {
         file << it.second.getStudyLvl() << ",";
         file << it.second.getCurrentCreditHours();
 
+        registeredCourses = it.second.getRegisteredCourses();
         IDs = "";
 
-        while (!it.second.getRegisteredCourses()->empty()) {
-            IDs.append(it.second.getRegisteredCourses()->front().getId()), it.second.getRegisteredCourses()->pop_front();
+        for (auto c = registeredCourses.begin(); c != registeredCourses.end(); ++c) {
+            IDs.append(c->getId());
             IDs.append("&");
         }
-        if(!it.second.getRegisteredCourses()->empty())
+
+        if (!it.second.getRegisteredCourses().empty())
             file << "," << IDs.substr(0, IDs.size() - 1);
+
         file << endl;
     }
-
     file.close();
 }
 
@@ -169,7 +183,6 @@ void readCourses(map<string, Course>& courses) {
         course.setTitle(data.front()), data.pop();
         course.setSyllabus(data.front()), data.pop();
         course.setCreditHours(stoi(data.front())), data.pop();
-
         courses.insert({ course.getId(), course });
     }
 
@@ -239,7 +252,8 @@ void readInstructors(map<string, Course>& courses) {
         instructor.department = data.front(), data.pop();
         instructor.courseId = data.front(), data.pop();
 
-        courses[(instructor.courseId)].addInstructor(instructor);
+        if(instructor.courseId != "")
+            courses[instructor.courseId].addInstructor(instructor);
     }
 
     file.close();
@@ -287,16 +301,15 @@ void readPrerequisites(map<string, Course>& courses) {
 
         courseID = data.front(), data.pop();
 
-        if (!data.empty()) {
+        if (!data.empty() && data.front() != "") {
             IDs = split(data.front(), '&'), data.pop();
-            while (!IDs.empty()) {
+
+            while (!IDs.empty() && IDs.front() != "") {
                 preCourseID = IDs.front(), IDs.pop();
-                courses[(courseID)].addPrerequisite(courses[(preCourseID)]);
+                courses[courseID].addPrerequisite(courses[preCourseID]);
             }
         }
-        courses.erase("");
     }
-
     file.close();
 }
 
