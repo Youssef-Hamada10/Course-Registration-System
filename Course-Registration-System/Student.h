@@ -1,3 +1,4 @@
+#pragma once
 #include "Person.h"
 #include "Course.h"
 #include <deque>
@@ -5,9 +6,8 @@
 
 class Student : public Person {
 private:
-	string id;
 	string name;
-	string nationalId;
+	string nationalID;
 	string telephoneNumber;
 	string address;
 	string nationality;
@@ -17,14 +17,13 @@ private:
 	int currentCreditHours;
 
 public:
-	Student(string userName, string password, string name, string ID, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
+	Student(string ID, string userName, string password, string name, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours);
+	Student(const Student& other);
 	Student();
-	void setId(string);
-	string getId();
 	string getName();
 	void setName(string name);
-	string getNationalId();
-	void setNationalId(string);
+	string getNationalID();
+	void setNationalID(string);
 	string getTelephoneNumber();
 	void setTelephoneNumber(string telephoneNumber);
 	string getAddress();
@@ -44,8 +43,6 @@ public:
 	void displayGrades();
 	void report();
 	deque<Course> getRegisteredCourses();
-
-
 };
 
 

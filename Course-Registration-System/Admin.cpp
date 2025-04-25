@@ -1,14 +1,28 @@
 #include "Admin.h"
 
-void Admin::manageGrades()
-{
+int Admin::numberOfIDs = 0;
+
+Admin::Admin(string username, string password) {
+	this->ID = to_string(++numberOfIDs);
+	this->username = username;
+	this->password = password;
 }
 
-void Admin::setPrerequisites()
-{
+Admin::Admin(const Admin& other) {
+	this->ID = other.ID;
+	this->username = other.username;
+	this->password = other.password;
 }
 
-void Admin::uploadCourseDescription()
-{
+Admin::Admin() {
+	this->ID = to_string(numberOfIDs);
 }
 
+void Admin::manageGrades() {
+}
+
+void Admin::setPrerequisites() {
+}
+
+void Admin::uploadCourseDescription() {
+}

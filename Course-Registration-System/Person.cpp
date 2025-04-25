@@ -1,12 +1,21 @@
 #include "Person.h"
 
-Person::Person(string username, string password)
+Person::Person(string ID, string username, string password)
 {
+    this->ID = ID;
     this->username = username;
     this->password = password;
 }
 
 Person::Person() {
+}
+
+string Person::getID() {
+    return ID;
+}
+
+void Person::setID(string ID) {
+    this->ID = ID;
 }
 
 string Person::getUsername()

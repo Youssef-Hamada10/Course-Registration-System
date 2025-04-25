@@ -1,35 +1,38 @@
 #include "Course.h"
 #include <iostream>
 
-Course::Course(string id, string title, string syllabus, forward_list<Course> prerequisites, int creditHours, forward_list<Instructor> instructors) {
-    this->id = id;
+Course::Course(string ID, string title, string syllabus, forward_list<Course> prerequisites, int creditHours, forward_list<Instructor> instructors, Semester semester) {
+    this->ID = ID;
     this->title = title;
     this->syllabus = syllabus;
     this->prerequisites = prerequisites;
     this->creditHours = creditHours;
     this->instructors = instructors;
+    this->semester = semester;
 }
 
 Course::Course(const Course& course)
 {
-    this->id = course.id;
+    this->ID = course.ID;
     this->title = course.title;
     this->syllabus = course.syllabus;
     this->prerequisites = course.prerequisites;
     this->creditHours = course.creditHours;
     this->instructors = course.instructors;
+    this->semester = course.semester;
 }
 
 Course::Course() {
     creditHours = 0;
+    semester = Fall;
 }
 
-string Course::getId() {
-    return id;
+string Course::getID() {
+    return ID;
 }
 
-void Course::setId(string id) {
-    this->id = id;
+void Course::setID(string ID) {
+    this->ID = ID;
 }
 
 string Course::getTitle() {
@@ -76,8 +79,15 @@ void Course::setCreditHours(int creditHours) {
     this->creditHours = creditHours;
 }
 
-forward_list<Instructor> Course::getInstructors()
-{
+Semester Course::getSemester() {
+    return semester;
+}
+
+void Course::setSemester(Semester semester) {
+    this->semester = semester;
+}
+
+forward_list<Instructor> Course::getInstructors() {
     return instructors;
 }
 
@@ -86,6 +96,6 @@ void Course::displayCourseInfo() {
 }
 
 bool Course::operator==(const Course& other) const {
-    return this->id == other.id;
+    return this->ID == other.ID;
 }
 
