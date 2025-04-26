@@ -1,33 +1,33 @@
 Course ID,Title,Syllabus,Credit Hours,Semester,Instructor ID,Prerequisite ID
-BSC121,Physics 1,10 Lectures,3,Fall,INS#2&INS#1
-BSC122,Calculus 1,10 Lectures,3,Fall,INS#4&INS#3
-BSC123,Probability & Statistical,10 Lectures,3,Fall,INS#6&INS#5
-BSC125,Calculus 2,10 Lectures,3,Spring,INS#7,BSC122
-BSC126,Physics 2,10 Lectures,3,Spring,INS#9&INS#8,BSC121
-BSC221,Discrete Mathematics,10 Lectures,3,Fall,INS#10
-BSC225,Linear Algebra,10 Lectures,3,Spring,INS#11
-CIS124,Electronics,10 Lectures,4,Spring,INS#12,BSC121
-CIS150,Structured Programming,10 Lectures,3,Spring,INS#13,CIS160
-CIS160,Intro to Computer,10 Lectures,3,Fall,INS#14
-CIS220,Computer Organization & Architecture,10 Lectures,3,Spring,INS#15,CIS260
-CIS230,Operations Research,10 Lectures,3,Spring,INS#17&INS#16
-CIS240,Statistical Analysis,10 Lectures,3,Fall,INS#19&INS#18,BSC123
-CIS243,Artificial Intelligence,10 Lectures,3,Spring,INS#20,CIS150
-CIS250,Object oriented Programming,10 Lectures,3,Fall,INS#21,CIS150
-CIS260,Logic Design,10 Lectures,3,Fall,INS#23&INS#22,BSC121
-CIS270,Data Structure,10 Lectures,3,Spring,INS#25&INS#24,CIS250
-CIS280,Database Management Systems,10 Lectures,3,Fall,INS#27&INS#26,CIS150
-CIS290,System Analysis & Design,10 Lectures,3,Fall,INS#28,CIS280
-CIS340,Analysis & Design of Algorithms,10 Lectures,3,Spring,INS#29,CIS150
-CIS353,Operating System,10 Lectures,3,Fall,INS#30,CIS220
-CIS365,Computer Networks,10 Lectures,3,Fall,INS#31,CIS160
-CIS380,Software Engineering,10 Lectures,3,Spring,INS#33&INS#32,CIS150
-CSC330,Pattern Recognition,10 Lectures,3,Spring,INS#34,CIS150&BSC123
-CSC340,Natural Language Processing,10 Lectures,3,Spring,INS#35,CIS150
-CSC350,Concepts of Programming Languages,10 Lectures,3,Spring,INS#36,CIS250
-CSC360,Compiler Theory,10 Lectures,3,Spring,INS#38&INS#37,BSC221
-HUM110,English Language 1,10 Lectures,2,Fall,INS#39
-HUM113,Report Writing,10 Lectures,2,Fall,INS#41&INS#40
-INF311,Data Mining,10 Lectures,3,Fall,INS#42,CIS280
-SCO311,Computer Graphics,10 Lectures,3,Fall,INS#43,CIS150
-STU130,Profesional Ethics,10 Lectures,2,Spring,INS#44
+BSC121,Physics 1,10 Lectures,3,Fall,INS#3&INS#2
+BSC122,Calculus 1,10 Lectures,3,Fall,INS#5&INS#4
+BSC123,Probability & Statistical,10 Lectures,3,Fall,INS#8&INS#7
+BSC125,Calculus 2,10 Lectures,3,Spring,INS#12,BSC122
+BSC126,Physics 2,10 Lectures,3,Spring,INS#14&INS#13,BSC121
+BSC221,Discrete Mathematics,10 Lectures,3,Fall,INS#18
+BSC225,Linear Algebra,10 Lectures,3,Spring,INS#28
+CIS124,Electronics,10 Lectures,4,Spring,INS#11,BSC121
+CIS150,Structured Programming,10 Lectures,3,Spring,INS#10,CIS160
+CIS160,Intro to Computer,10 Lectures,3,Fall,INS#1
+CIS220,Computer Organization & Architecture,10 Lectures,3,Spring,INS#25,CIS260
+CIS230,Operations Research,10 Lectures,3,Spring,INS#30&INS#29
+CIS240,Statistical Analysis,10 Lectures,3,Fall,INS#24&INS#23,BSC123
+CIS243,Artificial Intelligence,10 Lectures,3,Spring,INS#31,CIS150
+CIS250,Object oriented Programming,10 Lectures,3,Fall,INS#17,CIS150
+CIS260,Logic Design,10 Lectures,3,Fall,INS#20&INS#19,BSC121
+CIS270,Data Structure,10 Lectures,3,Spring,INS#27&INS#26,CIS250
+CIS280,Database Management Systems,10 Lectures,3,Fall,INS#22&INS#21,CIS150
+CIS290,System Analysis & Design,10 Lectures,3,Fall,INS#34,CIS280
+CIS340,Analysis & Design of Algorithms,10 Lectures,3,Spring,INS#39,CIS150
+CIS353,Operating System,10 Lectures,3,Fall,INS#32,CIS220
+CIS365,Computer Networks,10 Lectures,3,Fall,INS#33,CIS160
+CIS380,Software Engineering,10 Lectures,3,Spring,INS#38&INS#37,CIS150
+CSC330,Pattern Recognition,10 Lectures,3,Spring,INS#40,BSC123&CIS150
+CSC340,Natural Language Processing,10 Lectures,3,Spring,INS#41,CIS150
+CSC350,Concepts of Programming Languages,10 Lectures,3,Spring,INS#44,CIS250
+CSC360,Compiler Theory,10 Lectures,3,Spring,INS#43&INS#42,BSC221
+HUM110,English Language 1,10 Lectures,2,Fall,INS#6
+HUM113,Report Writing,10 Lectures,2,Fall,INS#16&INS#15
+INF311,Data Mining,10 Lectures,3,Fall,INS#36,CIS280
+SCO311,Computer Graphics,10 Lectures,3,Fall,INS#35,CIS150
+STU130,Profesional Ethics,10 Lectures,2,Spring,INS#9

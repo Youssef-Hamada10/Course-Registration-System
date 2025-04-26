@@ -1,9 +1,8 @@
-Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs
-2021170001,2021170001@cis.asu.edu.eg,1011,Aisha Ali,Egyption,3050806011,1554300125,Cairo,2.33,4,6,BSC121&CIS150
-2022170002,2022170001@cis.asu.edu.eg,1415,Abdulla Omar,Egyption,3050806011,1012500789,Cairo,2.89,3,9,BSC123&CIS124&CIS240
-2022170003,2022170002@cis.asu.edu.eg,1617,Mohamed Magdy,Egyption,3050806011,1116522146,Cairo,3.18,3,1,BSC221
-2022170004,2023170001@cis.asu.edu.eg,456,Ali Mohamed,Egyption,3050806011,1201415736,Gize,3.1,2,0,
-2022170005,2023170002@cis.asu.edu.eg,789,Khaled Mahmoud,Egyption,3050806011,1145800163,Giza,2.21,2,0,
-2022170006,2023170003@cis.asu.edu.eg,1213,Khadija Omar,Egyption,3050806011,1015800147,Alexandria,3.28,2,0,
-2022170007,2024170001@cis.asu.edu.eg,123,Omar Ahmed,Egyption,3050806011,1015200345,Cairo,3.44,1,9,BSC121&BSC122&CIS250
-2022170008,2024170003@cis.asu.edu.eg,123,Maram Ali,Egyption,302012013,1014900153,Cairo,0,1,19,
+Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades
+2021170001,2021170001@cis.asu.edu.eg,4344,Aisha Ali,Egyption,3050806011,00001554300125,Cairo,2.33,4,6,15,BSC121&BSC122&BSC123&BSC221&CIS150,A&B+&B-&A&C+
+2022170001,2022170001@cis.asu.edu.eg,4748,Abdulla Omar,Egyption,3050806011,00001012500789,Cairo,2.89,3,7,10,BSC123&CIS124&CIS240,C+&A&B-
+2022170002,2022170002@cis.asu.edu.eg,494:,Mohamed Magdy,Egyption,3050806011,00001116522146,Cairo,3.18,3,9,3,BSC221,A
+2023170001,2023170001@cis.asu.edu.eg,789,Ali Mohamed,Egyption,3050806011,00001201415736,Gize,3.1,2,10,0
+2023170002,2023170002@cis.asu.edu.eg,:;<,Khaled Mahmoud,Egyption,3050806011,00001145800163,Giza,2.21,2,13,0
+2023170003,2023170003@cis.asu.edu.eg,4546,Khadija Omar,Egyption,3050806011,00001015800147,Alexandria,3.28,2,11,0
+2024170001,2024170001@cis.asu.edu.eg,456,Omar Ahmed,Egyption,3050806011,00001015200345,Cairo,3.44,1,5,9,BSC121&BSC122&CIS250,B+&B&A

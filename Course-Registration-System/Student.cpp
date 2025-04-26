@@ -11,6 +11,7 @@ Student::Student(string ID, string username, string password, string name, strin
     this->gpa = gpa;
     this->level = level;
     this->currentCreditHours = currentCreditHours;
+    this->totalCreditHours = 0;
 }
 
 Student::Student(const Student& other)
@@ -24,12 +25,14 @@ Student::Student(const Student& other)
     this->gpa = other.gpa;
     this->level = other.level;
     this->currentCreditHours = other.currentCreditHours;
+    this->totalCreditHours = other.totalCreditHours;
 }
 
 Student::Student() {
     level = 1;
     gpa = 0.0;
     currentCreditHours = 0;
+    totalCreditHours = 0;
 }
 
 string Student::getName() {
@@ -96,14 +99,23 @@ void Student::setCurrentCreditHours(int currentCreditHours) {
     this->currentCreditHours = currentCreditHours;
 }
 
+int Student::getTotalCreditHours() {
+    return totalCreditHours;
+}
+
+void Student::setTotatlCreditHours(int totalCreditHours) {
+    this->totalCreditHours = totalCreditHours;
+}
+
 void Student::searchForCourses(map<string, Course> courses) {
 }
 
-void Student::registerCourse(Course course) {
+void Student::registerCourse(pair<Course, string> course) {
+    this->totalCreditHours += course.first.getCreditHours();
     this->registeredCourses.push_front(course);
 }
 
-void Student::registerCourseInFiles(Course course) {
+void Student::registerCourseInFiles(pair<Course, string> course) {
     this->registeredCourses.push_back(course);
 }
 
@@ -116,7 +128,11 @@ void Student::displayGrades() {
 void Student::report() {
 }
 
-deque<Course> Student::getRegisteredCourses() {
+deque<pair<Course, string>> Student::getRegisteredCourses() {
     return registeredCourses;
+}
+
+deque<pair<Course, string>>* Student::getRegisteredCourses1() {
+    return &registeredCourses;
 }
 

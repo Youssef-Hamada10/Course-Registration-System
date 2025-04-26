@@ -11,9 +11,10 @@ private:
 	string telephoneNumber;
 	string address;
 	string nationality;
-	deque<Course> registeredCourses;
+	deque<pair<Course, string>> registeredCourses;
 	float gpa;
 	int level;
+	int totalCreditHours;
 	int currentCreditHours;
 
 public:
@@ -36,13 +37,16 @@ public:
 	void setStudyLvl(int studyLvl);
 	int getCurrentCreditHours();
 	void setCurrentCreditHours(int currentCreditHours);
+	int getTotalCreditHours();
+	void setTotatlCreditHours(int totalCreditHours);
 	void searchForCourses(map<string, Course> courses);
-	void registerCourse(Course course);
-	void registerCourseInFiles(Course course);
+	void registerCourse(pair<Course, string> course);
+	void registerCourseInFiles(pair<Course, string> course);
 	void displayInfo();
 	void displayGrades();
 	void report();
-	deque<Course> getRegisteredCourses();
+	deque<pair<Course, string>> getRegisteredCourses();
+	deque<pair<Course, string>>* getRegisteredCourses1();
 };
 
 

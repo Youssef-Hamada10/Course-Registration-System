@@ -26,8 +26,9 @@ void writeAdmins();
 void writeCourses();
 void writeInstructors();
 void writePrerequisites();
-string encrypt(const string& input, char key);
-int menu();
+string encryptPassword(const string& password, int key);
+string decryptPassword(const string& password, int key);
+bool mainMenu(int choice);
 bool signUpAsStudent();
 bool signUpAsAdmin();
 bool isUniqueInfo(string nationalID, string telephoneNumber);
@@ -38,119 +39,26 @@ void studentMenu();
 void adminMenu();
 
 int main() {
-    int choice = 0, counter;
-    bool flag, signedUp, loggedIn;
-
+    bool flag;
     readCourses();
     readStudents();
     readAdmins();
     
-    while (true) {
-        counter = 0;
-        flag = false, loggedIn = false, signedUp = false;
-        choice = menu();
-
-        if (choice == 1) {
-            cout << "1: Sign Up As a Student.\n2: Sign Up As an Admin.\n3: Exit.\nYour Choice: ";
+    do {
+        flag = false;
+        auto menuChoice = [](int choice = 0) -> int {
+            cout << "Course Registration Management System\n------------------------------------\n";
+            cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
             cin >> choice;
-            cin.ignore();
+            return choice;
+        };
+        flag = mainMenu(menuChoice());
+    } while (flag);
 
-            if (choice == 1) {
-
-                do {
-                    ++counter;
-                    signedUp = signUpAsStudent();
-                    if (counter > 2) {
-                        flag = true;
-                        break;
-                    }
-                } while (!signedUp);
-                
-                if (flag) {
-                    continue;
-                }
-                cout << "Signed Up Is Done!" << endl;
-            }
-
-            else if (choice == 2) {
-
-                do {
-                    ++counter;
-                    signedUp = signUpAsAdmin();
-                    if (counter > 2) {
-                        flag = true;
-                        break;
-                    }
-                } while (!signedUp);
-
-                if (flag) {
-                    continue;
-                }
-                cout << "Signed Up Is Done!" << endl;
-            }
-
-            else {
-                break;
-            }
-        }
-
-        else if (choice == 2) {
-            cout << "1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\nYour Choice: ";
-            cin >> choice;
-
-            cin.ignore();
-            if (choice == 1) {
-                pair<bool, map<string, Student>::iterator> student;
-                while (!loggedIn) {
-                    ++counter;
-                    student = loginAsStudent();
-                    loggedIn = student.first;
-
-                    if (counter > 2) {
-                        flag = true;
-                        break;
-                    }
-                }
-
-                if (flag) {
-                    continue;
-                }
-                cout << "Logged In Is Done!" << endl;
-            }
-
-            else if (choice == 2) {
-                pair<bool, map<string, Admin>::iterator> admin;
-                while (!loggedIn) {
-                    ++counter;
-                    admin = loginAsAdmin();
-                    loggedIn = admin.first;
-
-                    if (counter > 2) {
-                        flag = true;
-                        break;
-                    }
-                }
-
-                if (flag) {
-                    continue;
-                }
-                cout << "Logged In Is Done!" << endl;
-            }
-
-            else {
-                break;
-            }
-        }
-
-        else {
-            break;
-        }
+    for (auto& it : students) {
+        cout << "stu: " << it.second.getPassword() << endl;
     }
     cout << "Thanks For Using Our System :)" << endl;
-
-    for (auto s : students)
-        cout << s.second.getName() << endl;
-
     writeCourses();
     writeInstructors();
     writePrerequisites();
@@ -183,6 +91,7 @@ void readStudents() {
     string line;
     queue<string> data;
     queue<string> IDs;
+    queue<string> grades;
 
     getline(file, line); // to ignore header 
     while (getline(file, line)) {
@@ -190,7 +99,7 @@ void readStudents() {
         data = split(line, ',');
         student.setID(data.front()), data.pop();
         student.setUsername(data.front()), data.pop();
-        student.setPassword(data.front()), data.pop();
+        student.setPassword(decryptPassword(data.front(), 3)), data.pop();
         student.setName(data.front()), data.pop();
         student.setNationality(data.front()), data.pop();
         student.setNationalID(data.front()), data.pop();
@@ -199,11 +108,15 @@ void readStudents() {
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
+        student.setTotatlCreditHours(stoi(data.front())), data.pop();
 
         if (!data.empty() && data.front() != "") {
             IDs = split(data.front(), '&'), data.pop();
-            while (!IDs.empty() && IDs.front() != "") {  // get registered courses IDs
-                student.registerCourseInFiles(courses[IDs.front()]), IDs.pop();
+            grades = split(data.front(), '&'), data.pop();
+            while (!IDs.empty() && IDs.front() != "" &&
+                !grades.empty() && grades.front() != "") {  // get registered courses IDs
+                student.registerCourseInFiles({ courses[IDs.front()], grades.front()});
+                IDs.pop(), grades.pop();
             }
         }
 
@@ -219,15 +132,16 @@ void writeStudents() {
         cout << "Error opening students file!" << endl;
     }
 
-    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Total Credit Hours,Registered Courses IDs\n";  // Header
+    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades\n";  // Header
 
-    deque<Course> registeredCourses;
+    deque<pair<Course, string>> registeredCourses;
     string IDs;
+    string grades;
 
     for (auto& it : students) {
         file << it.first << ",";
         file << it.second.getUsername() << ",";
-        file << it.second.getPassword() << ",";
+        file << encryptPassword(it.second.getPassword(), 3) << ",";
         file << it.second.getName() << ",";
         file << it.second.getNationality() << ",";
         file << it.second.getNationalID() << ",";
@@ -235,19 +149,24 @@ void writeStudents() {
         file << it.second.getAddress() << ",";
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
-        file << it.second.getCurrentCreditHours();
+        file << it.second.getCurrentCreditHours() << ",";
+        file << it.second.getTotalCreditHours();
 
         registeredCourses = it.second.getRegisteredCourses();
         IDs = "";
+        grades = "";
 
         for (auto c = registeredCourses.begin(); c != registeredCourses.end(); ++c) {
-            IDs.append(c->getID());
+            IDs.append(c->first.getID());
             IDs.append("&");
+            grades.append(c->second);
+            grades.append("&");
         }
 
-        if (!it.second.getRegisteredCourses().empty())
+        if (!it.second.getRegisteredCourses().empty()) {
             file << "," << IDs.substr(0, IDs.size() - 1);
-
+            file << "," << grades.substr(0, grades.size() - 1);
+        }
         file << endl;
     }
     file.close();
@@ -397,8 +316,8 @@ void writeInstructors() {
 
     file << "Instructor ID,Name,Department,Course ID\n";  // Header
 
-    for (auto it : courses) {
-        for (auto inst : it.second.getInstructors()) {
+    for (auto& it : courses) {
+        for (auto& inst : it.second.getInstructors()) {
             file << inst.ID << ",";
             file << inst.name << ",";
             file << inst.department << ",";
@@ -470,22 +389,110 @@ void writePrerequisites() {
     file.close();
 }
 
-string encrypt(const string& input, char key) {
-    string output = input;
-    for (int i = 0; i < input.size(); i++) {
-        output[i] = input[i] ^ key;
+string encryptPassword(const string& password, int key) {
+    std::string encryptedPassword = "";
+    for (char c : password) {
+        encryptedPassword += static_cast<char>(c + key);
     }
-    return output;
+    return encryptedPassword;
 }
 
-int menu() {
-    int choice = 0;
+// Decrypt function
+string decryptPassword(const string& encryptedPassword, int key) {
+    std::string decryptedPassword = "";
+    for (char c : encryptedPassword) {
+        decryptedPassword += static_cast<char>(c - key);
+    }
+    return decryptedPassword;
+}
 
-    cout << "Course Registration Management System\n------------------------------------\n";
-    cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
-    cin >> choice;
+bool mainMenu(int choice) {
+    int counter = 0;
+    bool loggedIn = false, signedUp = false, flag = false;
 
-    return choice;
+    if (choice == 1) {
+        cout << "1: Sign Up As a Student.\n2: Sign Up As an Admin.\n3: Exit.\nYour Choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        if (choice == 1) {
+            while (!signedUp) {
+                ++counter;
+                signedUp = signUpAsStudent();
+                if (counter > 2) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                return 1;
+            }
+            cout << "Signed Up Is Done!" << endl;
+        }
+
+        else if (choice == 2) {
+
+            while (!signedUp) {
+                ++counter;
+                signedUp = signUpAsAdmin();
+                if (counter > 2) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                return 1;
+            }
+            cout << "Signed Up Is Done!" << endl;
+        }
+    }
+
+    else if (choice == 2) {
+        cout << "1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\nYour Choice: ";
+        cin >> choice;
+
+        cin.ignore();
+        if (choice == 1) {
+            pair<bool, map<string, Student>::iterator> student;
+            while (!loggedIn) {
+                ++counter;
+                student = loginAsStudent();
+                loggedIn = student.first;
+
+                if (counter > 2) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                return 1;
+            }
+            cout << "Logged In Is Done!" << endl;
+        }
+
+        else if (choice == 2) {
+            pair<bool, map<string, Admin>::iterator> admin;
+            while (!loggedIn) {
+                ++counter;
+                admin = loginAsAdmin();
+                loggedIn = admin.first;
+
+                if (counter > 2) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                return 1;
+            }
+            cout << "Logged In Is Done!" << endl;
+        }
+    }
+    return 0;
 }
 
 bool signUpAsStudent() {
