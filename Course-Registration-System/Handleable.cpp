@@ -27,16 +27,17 @@ int Handleable::handlingInt(std::string numberName) {
             if (std::cin.fail()) {
                 throw std::runtime_error("");
             }
+            break;
 
         }
         catch (std::runtime_error e) {
             std::cout << "Enter Valid " << numberName << ": ";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
         }
 
     }
+    return number;
 }
 
 int Handleable::handlingChoiceNotFound(int maxChoice) {

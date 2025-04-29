@@ -1,5 +1,11 @@
+#include <iostream>
+#include <iomanip>
 #include "Student.h"
+#include "Handleable.h"
 #include <map>
+
+using namespace std;
+
 
 Student::Student(string ID, string username, string password, string name, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours)
     :Person(ID, username, password) {
@@ -110,9 +116,12 @@ void Student::setTotatlCreditHours(int totalCreditHours) {
 void Student::searchForCourses(map<string, Course> courses) {
 }
 
-void Student::registerCourse(pair<Course, string> course) {
-    this->totalCreditHours += course.first.getCreditHours();
+void Student::addCourse(pair<Course, string> course) {
     this->registeredCourses.push_front(course);
+}
+
+void Student::registerCourse(map<string, Course> courses) {
+    
 }
 
 void Student::registerCourseInFiles(pair<Course, string> course) {
@@ -120,12 +129,73 @@ void Student::registerCourseInFiles(pair<Course, string> course) {
 }
 
 void Student::displayInfo() {
+    cout << "Personal Information:\n============================================================================\n";
+    cout << "Name: " << left << setw(37) << name << "ID: " << ID << endl;
+    cout << "Username: " << left << setw(33) << username << "Password: " << password << endl;
+    cout << "National ID: " << left << setw(30) << nationalID << "Telephone Number: " << telephoneNumber << endl;
+    cout << "Address: " << left << setw(34) << address << "Nationality: " << nationality << endl;
+    cout << "Level: " << left << setw(36) << level << "Total Credit Hours: " << totalCreditHours << endl;
+    cout << "===========================================================================\n";
 }
 
 void Student::displayGrades() {
+    if (registeredCourses.empty()) {
+        cout << "No Grades To View\n";
+        return;
+    }
+
+    deque<pair<Course, string>> courses = registeredCourses;
+
+    cout << left << setw(10) << "ID" << setw(40) << "Course Title" << setw(12) << "Semester" << setw(5) << "Grade\n";
+    cout << "=====================================================================" << endl;
+    while (!courses.empty()) {
+        cout << left << setw(10) << courses.front().first.getID() << setw(40) << courses.front().first.getTitle() << setw(12) << (courses.front().first.getSemester() ? "Spring" : "Fall") << setw(5) << courses.front().second << endl;
+        courses.pop_front();
+    }
+    cout << "=====================================================================" << endl;
+}
+
+void Student::displayPrerequisite(map<string, Course> courses) {
+}
+
+void Student::searchCourse(map<string, Course> courses) {
 }
 
 void Student::report() {
+}
+
+void Student::studentMenu(map<string, Course> courses) {
+    int choice;
+    cout << "Welcome " << this->name << endl;
+
+    while (true) {
+        cout << "1 : To Display Info.\n2 : To Register Course.\n3 : To View Your Grades.\n4 : To Check Prerequisites For A Course.\n5 : Search For A Course.\n6 : Make A Report.\n7 : Log Out\n";
+        choice = Handleable::handlingChoiceNotFound(7);
+        switch (choice) {
+        case 1:
+            displayInfo();
+            break;
+        case 2:
+            registerCourse(courses);
+            break;
+        case 3:
+            displayGrades();
+            break;
+        case 4:
+            displayPrerequisite(courses);
+            break;
+        case 5:
+            searchCourse(courses);
+            break;
+        case 6:
+            report();
+            break;
+        case 7: 
+            return;
+        default:
+            break;
+        }
+    }
 }
 
 deque<pair<Course, string>> Student::getRegisteredCourses() {

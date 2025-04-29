@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include <map>
 #include <fstream>
 #include <queue>
@@ -28,6 +29,7 @@ void writeInstructors();
 void writePrerequisites();
 string encryptPassword(const string& password, int key);
 string decryptPassword(const string& password, int key);
+string getPassword();
 bool mainMenu(int choice);
 bool signUpAsStudent();
 bool signUpAsAdmin();
@@ -55,9 +57,7 @@ int main() {
         flag = mainMenu(menuChoice());
     } while (flag);
 
-    for (auto& it : students) {
-        cout << "stu: " << it.second.getPassword() << endl;
-    }
+   
     cout << "Thanks For Using Our System :)" << endl;
     writeCourses();
     writeInstructors();
@@ -103,7 +103,7 @@ void readStudents() {
         student.setName(data.front()), data.pop();
         student.setNationality(data.front()), data.pop();
         student.setNationalID(data.front()), data.pop();
-        student.setTelephoneNumber(data.front().insert(0, "0")), data.pop();
+        student.setTelephoneNumber("0" + data.front()), data.pop();
         student.setAddress(data.front()), data.pop();
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
@@ -145,7 +145,7 @@ void writeStudents() {
         file << it.second.getName() << ",";
         file << it.second.getNationality() << ",";
         file << it.second.getNationalID() << ",";
-        file << it.second.getTelephoneNumber() << ",";
+        file << it.second.getTelephoneNumber().substr(1, it.second.getTelephoneNumber().length() - 1) << ",";
         file << it.second.getAddress() << ",";
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
@@ -470,6 +470,8 @@ bool mainMenu(int choice) {
             if (flag) {
                 return 1;
             }
+
+            student.second->second.studentMenu(courses);
             cout << "Logged In Is Done!" << endl;
         }
 
@@ -501,7 +503,7 @@ bool signUpAsStudent() {
     cout << "Enter Your Name: ";
     getline(cin, name);
     cout << "Enter Your Password: ";
-    getline(cin, password);
+    password = getPassword();
     cout << "Enter Your National ID: ";
     getline(cin, nationalID);
     cout << "Enter Your Telephone Number: ";
@@ -539,7 +541,7 @@ bool signUpAsAdmin() {
     cout << "Enter Your Username: ";
     getline(cin, username);
     cout << "Enter Your Password: ";
-    getline(cin, password);
+    password = getPassword();
 
     auto isValid = [](string username) {
         map<string, Admin>::iterator temp = admins.find(username);
@@ -564,7 +566,7 @@ pair<bool, map<string, Student>::iterator> loginAsStudent() {
     cout << "Enter Your National ID: ";
     getline(cin, nationalID);
     cout << "Enter Your Password: ";
-    getline(cin, password);
+    password = getPassword();
 
     auto user = isValidInfoAsStudent(ID, password, nationalID);
     if (!user.first) {
@@ -588,8 +590,7 @@ pair<bool, map<string, Admin>::iterator> loginAsAdmin() {
     cout << "Enter Your Username: ";
     getline(cin, username);
     cout << "Enter Your Password: ";
-    getline(cin, password);
-
+    password = getPassword();
     auto isValid = [](string username, string password) -> pair<bool, map<string, Admin>::iterator> {
         map<string, Admin>::iterator temp = admins.find(username);
         return temp != admins.end() && temp->second.getPassword() == password ? make_pair(true, temp) : make_pair(false, temp);
@@ -606,4 +607,30 @@ void studentMenu() {
 }
 
 void adminMenu() {
+}
+
+string getPassword() {
+    string password;
+    char ch;
+    while (true) {
+        ch = _getch();
+        if (ch == 13) {
+            // enter buttom
+            if (!password.empty()) {
+                cout << endl;
+                return password;
+            }
+            else
+                continue;
+        }
+        else if ((ch == 8) && (!password.empty())) {
+            // delete buttom
+            cout << "\b \b";
+            password.pop_back();
+        }
+        else if (ch != 8) {
+            password.push_back(ch);
+            cout << "*";
+        }
+    }
 }

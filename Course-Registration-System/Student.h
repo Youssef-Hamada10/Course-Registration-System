@@ -40,11 +40,15 @@ public:
 	int getTotalCreditHours();
 	void setTotatlCreditHours(int totalCreditHours);
 	void searchForCourses(map<string, Course> courses);
-	void registerCourse(pair<Course, string> course);
+	void addCourse(pair<Course, string> course);
+	void registerCourse(map<string, Course> courses);
 	void registerCourseInFiles(pair<Course, string> course);
 	void displayInfo();
 	void displayGrades();
+	void displayPrerequisite(map<string, Course> courses);
+	void searchCourse(map<string, Course> courses);
 	void report();
+	void studentMenu(map<string, Course> courses);
 	deque<pair<Course, string>> getRegisteredCourses();
 	deque<pair<Course, string>>* getRegisteredCourses1();
 };
