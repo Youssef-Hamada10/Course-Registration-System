@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\Projects\\Vs\\Course-Registration-System\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|solutionrelative:Course-Registration-System\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Student.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|solutionrelative:Course-Registration-System\\Student.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|solutionrelative:Course-Registration-System\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{538970C9-DAE7-4B96-BBB6-F2E0BF023EBE}|Course-Registration-System\\Course-Registration-System.vcxproj|D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Person.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -54,17 +54,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Main.cpp",
               "DocumentMoniker": "D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Main.cpp",
               "RelativeDocumentMoniker": "Course-Registration-System\\Main.cpp",
-              "ToolTip": "D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Main.cpp*",
-              "RelativeToolTip": "Course-Registration-System\\Main.cpp*",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAiwFMAAAATAAAAAAAAAA==",
+              "ToolTip": "D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Main.cpp",
+              "RelativeToolTip": "Course-Registration-System\\Main.cpp",
+              "ViewState": "AgIAACkAAAAAAAAAAAAiwEsAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-19T16:46:34.468Z",
               "EditorCaption": ""
@@ -107,13 +107,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Student.cpp",
               "DocumentMoniker": "D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Student.cpp",
               "RelativeDocumentMoniker": "Course-Registration-System\\Student.cpp",
               "ToolTip": "D:\\Projects\\Vs\\Course-Registration-System\\Course-Registration-System\\Student.cpp",
               "RelativeToolTip": "Course-Registration-System\\Student.cpp",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAqwJkAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAqwJkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-19T16:45:25.374Z",
               "EditorCaption": ""
