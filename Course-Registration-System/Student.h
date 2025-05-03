@@ -3,6 +3,7 @@
 #include "Course.h"
 #include <deque>
 #include <map>
+#include <unordered_map>
 
 class Student : public Person {
 private:
@@ -31,26 +32,22 @@ public:
 	void setAddress(string address);
 	string getNationality();
 	void setNationality(string);
-	float getGpa() const;
+	float getGpa();
 	void setGpa(float gpa);
-	int getStudyLvl() const;
+	int getStudyLvl();
 	void setStudyLvl(int studyLvl);
 	int getCurrentCreditHours();
 	void setCurrentCreditHours(int currentCreditHours);
-	int getTotalCreditHours();
+	int getTotalCreditHours() const;
 	void setTotatlCreditHours(int totalCreditHours);
-	void searchForCourses(map<string, Course> courses);
-	void addCourse(pair<Course, string> course);
 	void registerCourse(map<string, Course> courses);
-	void registerCourseInFiles(pair<Course, string> course);
+	void addCourseInFiles(pair<Course, string> course);
 	void displayInfo();
 	void displayGrades();
 	void displayPrerequisite(map<string, Course> courses);
 	void searchCourse(map<string, Course> courses);
 	void report();
-	void studentMenu(map<string, Course> courses);
+	void menu(map<string, Course> courses);
+	void updateGPA();
 	deque<pair<Course, string>> getRegisteredCourses();
-	deque<pair<Course, string>>* getRegisteredCourses1();
 };
-
-

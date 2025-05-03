@@ -28,14 +28,11 @@ int Handleable::handlingInt(std::string numberName) {
                 throw std::runtime_error("");
             }
             break;
-
-        }
-        catch (std::runtime_error e) {
+        } catch (std::runtime_error e) {
             std::cout << "Enter Valid " << numberName << ": ";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
-
     }
     return number;
 }
@@ -45,11 +42,27 @@ int Handleable::handlingChoiceNotFound(int maxChoice) {
         int choice = handlingInt("Choice");
         if (choice <= 0 || choice > maxChoice) {
             std::cout << "Enter Valid Choice: ";
-        }
-        else {
+        } else {
             return choice;
         }
     }
+}
+
+std::string Handleable::emptyString(std::string text, std::string message) {
+    auto isEmpty = [](std::string text) {
+        for (auto& c : text) {
+            if (c != ' ')
+                return false;
+        }
+        return true;
+    };
+
+    while (isEmpty(text)) {
+        std::cout << "Enter Valid " << message << ": ";
+        std::getline(std::cin, text);
+    }
+
+    return text;
 }
 
 std::string Handleable::handlingUsername(std::string username) {

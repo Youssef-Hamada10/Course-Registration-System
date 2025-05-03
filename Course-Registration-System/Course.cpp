@@ -1,7 +1,8 @@
 #include "Course.h"
 #include <iostream>
+#include <algorithm>
 
-Course::Course(string ID, string title, string syllabus, forward_list<Course> prerequisites, int creditHours, forward_list<Instructor> instructors, Semester semester) {
+Course::Course(string ID, string title, string syllabus, vector<Course*> prerequisites, int creditHours, vector<Instructor*> instructors, Semester semester) {
     this->ID = ID;
     this->title = title;
     this->syllabus = syllabus;
@@ -11,8 +12,7 @@ Course::Course(string ID, string title, string syllabus, forward_list<Course> pr
     this->semester = semester;
 }
 
-Course::Course(const Course& course)
-{
+Course::Course(const Course& course) {
     this->ID = course.ID;
     this->title = course.title;
     this->syllabus = course.syllabus;
@@ -51,24 +51,34 @@ void Course::setSyllabus(string syllabus) {
     this->syllabus = syllabus;
 }
 
-forward_list<Course> Course::getPrerequisite() {
+vector<Course*> Course::getPrerequisite() {
     return prerequisites;
 }
 
-void Course::addPrerequisite(Course course) {
-    prerequisites.push_front(course);
+void Course::addPrerequisite(Course* course) {
+    prerequisites.push_back(course);
 }
 
 void Course::removePrerequisite(Course course) {
-    prerequisites.remove(course);
+    auto it = find(prerequisites.begin(), prerequisites.end(), &course);
+    if (it != prerequisites.end()) {
+        prerequisites.erase(it);
+    } else {
+        cout << "Prerequisite Does Not Exist!\n";
+    }
 }
 
-void Course::addInstructor(Instructor instructor) {
-    instructors.push_front(instructor);
+void Course::addInstructor(Instructor* instructor) {
+    instructors.push_back(instructor);
 }
 
 void Course::removeInstructor(Instructor instructor) {
-    instructors.remove(instructor);
+    auto it = find(instructors.begin(), instructors.end(), &instructor);
+    if (it != instructors.end()) {
+        instructors.erase(it);
+    } else {
+        cout << "Instructor Does Not Exist!\n";
+    }
 }
 
 int Course::getCreditHours() {
@@ -87,15 +97,37 @@ void Course::setSemester(Semester semester) {
     this->semester = semester;
 }
 
-forward_list<Instructor> Course::getInstructors() {
+vector<Instructor*> Course::getInstructors() {
     return instructors;
 }
 
 void Course::displayCourseInfo() {
-
+    cout << "Course ID: " << this->ID << endl;
+    cout << "Course Name: " << this->title << endl;
+    cout << "Course Syllabus: " << this->syllabus << endl;
+    cout << "Course semester: " << (this->semester ? "Spring" : "Fall") << endl;
+    cout << "Required Credit Hours: " << this->creditHours << endl;
+    cout << "Instructors: [ ";
+    for (auto& it : this->instructors) {
+        cout << it->name << " ";
+    }
+    cout << "]\n";
+    cout << "Prerequisites: [ ";
+    for (auto& it : this->prerequisites) {
+        cout << it->getTitle() << " ";
+    }
+    cout << "]\n";
 }
 
 bool Course::operator==(const Course& other) const {
     return this->ID == other.ID;
+}
+
+Course::~Course() {
+    for (auto& it : this->instructors) {
+        if (!it) {
+            delete it;
+        }
+    }
 }
 

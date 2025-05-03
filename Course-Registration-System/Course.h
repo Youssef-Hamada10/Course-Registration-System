@@ -15,7 +15,7 @@ struct Instructor {
 
 	bool operator==(const Instructor& other) const {
 		return ID == other.ID;
-	}
+	};
 };
 
 class Course {
@@ -23,13 +23,13 @@ private:
 	string ID;
 	string title;
 	string syllabus;
-	forward_list<Course> prerequisites;
-	forward_list<Instructor> instructors;
+	vector<Course*> prerequisites;
+	vector<Instructor*> instructors;
 	Semester semester;
 	int creditHours;
 
 public:
-	Course(string ID, string title, string syllabus, forward_list<Course> prerequisite, int creditHours, forward_list<Instructor> instructors, Semester semester);
+	Course(string ID, string title, string syllabus, vector<Course*> prerequisite, int creditHours, vector<Instructor*> instructors, Semester semester);
 	Course(const Course& course);
 	Course();
 	string getID();
@@ -38,16 +38,17 @@ public:
 	void setTitle(string title);
 	string getSyllabus();
 	void setSyllabus(string syllabus);
-	forward_list<Course> getPrerequisite();
-	void addPrerequisite(Course course);
+	vector<Course*> getPrerequisite();
+	void addPrerequisite(Course* course);
 	void removePrerequisite(Course course);
-	void addInstructor(Instructor instructor);
+	void addInstructor(Instructor* instructor);
 	void removeInstructor(Instructor instructor);
 	int getCreditHours();
 	void setCreditHours(int creditHours);
 	Semester getSemester();
 	void setSemester(Semester semester);
-	forward_list<Instructor> getInstructors();
+	vector<Instructor*> getInstructors();
 	void displayCourseInfo();
 	bool operator==(const Course& other) const;
+	~Course();
 };

@@ -1,14 +1,15 @@
 #include <iostream>
-#include <conio.h>
 #include <map>
 #include <fstream>
 #include <queue>
+#include <conio.h>
 #include <deque>
 #include <string>
 #include <forward_list>
 #include "Admin.h"
 #include "Student.h"
 #include "Course.h"
+#include "Handleable.h"
 
 using namespace std;
 
@@ -27,43 +28,44 @@ void writeAdmins();
 void writeCourses();
 void writeInstructors();
 void writePrerequisites();
+string readLine();
 string encryptPassword(const string& password, int key);
 string decryptPassword(const string& password, int key);
 string getPassword();
 bool mainMenu(int choice);
 bool signUpAsStudent();
 bool signUpAsAdmin();
-bool isUniqueInfo(string nationalID, string telephoneNumber);
 pair<bool, map<string, Student>::iterator> loginAsStudent();
-pair<bool, map<string, Student>::iterator> isValidInfoAsStudent(string ID, string password, string nationalID);
 pair<bool, map<string, Admin>::iterator> loginAsAdmin();
-void studentMenu();
-void adminMenu();
 
 int main() {
-    bool flag;
+    bool access = true;
     readCourses();
     readStudents();
     readAdmins();
     
-    do {
-        flag = false;
-        auto menuChoice = [](int choice = 0) -> int {
-            cout << "Course Registration Management System\n------------------------------------\n";
-            cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
-            cin >> choice;
-            return choice;
-        };
-        flag = mainMenu(menuChoice());
-    } while (flag);
+    auto menuChoice = [](int choice = 0) -> int {
+        cout << "Course Registration Management System\n------------------------------------\n";
+        cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
+        choice = Handleable::handlingChoiceNotFound(3);
+        return choice;
+    };
 
-   
+    while (access)
+        access = mainMenu(menuChoice());
+
+    for (auto& it : students) {
+        cout << "stu: " << it.second.getPassword() << endl;
+    }
+
     cout << "Thanks For Using Our System :)" << endl;
-    writeCourses();
-    writeInstructors();
-    writePrerequisites();
-    writeStudents();
-    writeAdmins();
+    
+    //writeCourses();
+    //writeInstructors();
+    //writePrerequisites();
+    //writeStudents();
+    //writeAdmins();
+
     return 0;
 }
 
@@ -115,7 +117,7 @@ void readStudents() {
             grades = split(data.front(), '&'), data.pop();
             while (!IDs.empty() && IDs.front() != "" &&
                 !grades.empty() && grades.front() != "") {  // get registered courses IDs
-                student.registerCourseInFiles({ courses[IDs.front()], grades.front()});
+                student.addCourseInFiles({ courses[IDs.front()], grades.front() });
                 IDs.pop(), grades.pop();
             }
         }
@@ -263,13 +265,13 @@ void writeCourses() {
         file << (it.second.getSemester() == Fall ? "Fall" : "Spring");
 
         for (auto& inst : it.second.getInstructors()) {
-            instructorsIDs.append(inst.ID);
+            instructorsIDs.append(inst->ID);
             instructorsIDs.append("&");
         }
         file << "," << instructorsIDs.substr(0, instructorsIDs.size() - 1);
 
         for (auto& pre : it.second.getPrerequisite()) {
-            prerequisitesIDs.append(pre.getID());
+            prerequisitesIDs.append(pre->getID());
             prerequisitesIDs.append("&");
         }
         if (!it.second.getPrerequisite().empty())
@@ -289,19 +291,24 @@ void readInstructors() {
 
     string line;
     queue<string> data;
-    Instructor instructor;
 
     getline(file, line); // to ignore header
 
     while (getline(file, line)) {
         data = split(line, ',');
-        instructor.ID = data.front(), data.pop();
-        instructor.name = data.front(), data.pop();
-        instructor.department = data.front(), data.pop();
-        instructor.courseID = data.front(), data.pop();
-
-        if(instructor.courseID != "")
-            courses[instructor.courseID].addInstructor(instructor);
+        Instructor* instructor = new Instructor();
+        instructor->ID = data.front(), data.pop();
+        instructor->name = data.front(), data.pop();
+        instructor->department = data.front(), data.pop();
+        instructor->courseID = data.front(), data.pop();
+        if(instructor->courseID != "")
+            courses[instructor->courseID].addInstructor(instructor);
+    }
+    for (auto& it : courses) {
+        cout << "Course: " << endl;
+        for (auto& pre : it.second.getInstructors()) {
+            cout << "Instructor: " << pre->name << endl;
+        }
     }
     file.close();
 }
@@ -318,9 +325,9 @@ void writeInstructors() {
 
     for (auto& it : courses) {
         for (auto& inst : it.second.getInstructors()) {
-            file << inst.ID << ",";
-            file << inst.name << ",";
-            file << inst.department << ",";
+            file << inst->ID << ",";
+            file << inst->name << ",";
+            file << inst->department << ",";
             file << it.first << endl;
         }
     }
@@ -353,7 +360,7 @@ void readPrerequisites() {
 
             while (!IDs.empty() && IDs.front() != "") {
                 preCourseID = IDs.front(), IDs.pop();
-                courses[courseID].addPrerequisite(courses[preCourseID]);
+                courses[courseID].addPrerequisite(&courses[preCourseID]);
             }
         }
     }
@@ -376,7 +383,7 @@ void writePrerequisites() {
         file << it.first;
         IDs = "";
         for (auto& pre : it.second.getPrerequisite()) {
-            IDs.append(pre.getID());
+            IDs.append(pre->getID());
             IDs.append("&");
         }
 
@@ -406,13 +413,42 @@ string decryptPassword(const string& encryptedPassword, int key) {
     return decryptedPassword;
 }
 
+string getPassword() {
+    string password;
+    char ch;
+    while (true) {
+        ch = _getch();
+        if (ch == 13) { // Enter Buttom
+            if (!password.empty()) {
+                cout << endl;
+                break;
+            }
+        }
+        else if (ch == 8 && !password.empty()) { // Delete Buttom
+            cout << "\b \b";
+            password.pop_back();
+        }
+        else {
+            password.push_back(ch);
+            cout << "*";
+        }
+    }
+    return password;
+}
+
+string readLine() {
+    string text;
+    getline(cin, text);
+    return text;
+}
+
 bool mainMenu(int choice) {
     int counter = 0;
     bool loggedIn = false, signedUp = false, flag = false;
 
     if (choice == 1) {
         cout << "1: Sign Up As a Student.\n2: Sign Up As an Admin.\n3: Exit.\nYour Choice: ";
-        cin >> choice;
+        choice = Handleable::handlingChoiceNotFound(3);
         cin.ignore();
 
         if (choice == 1) {
@@ -432,7 +468,6 @@ bool mainMenu(int choice) {
         }
 
         else if (choice == 2) {
-
             while (!signedUp) {
                 ++counter;
                 signedUp = signUpAsAdmin();
@@ -451,7 +486,7 @@ bool mainMenu(int choice) {
 
     else if (choice == 2) {
         cout << "1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\nYour Choice: ";
-        cin >> choice;
+        choice = Handleable::handlingChoiceNotFound(3);
 
         cin.ignore();
         if (choice == 1) {
@@ -470,8 +505,7 @@ bool mainMenu(int choice) {
             if (flag) {
                 return 1;
             }
-
-            student.second->second.studentMenu(courses);
+            student.second->second.menu(courses);
             cout << "Logged In Is Done!" << endl;
         }
 
@@ -499,39 +533,37 @@ bool mainMenu(int choice) {
 
 bool signUpAsStudent() {
     string name, password, nationalID, telephoneNumber, address, nationality, ID, username;
+    bool isUnique = true;
 
     cout << "Enter Your Name: ";
-    getline(cin, name);
+    name = Handleable::emptyString(readLine(), "Name");
     cout << "Enter Your Password: ";
     password = getPassword();
     cout << "Enter Your National ID: ";
-    getline(cin, nationalID);
+    nationalID = Handleable::emptyString(readLine(), "National ID");
     cout << "Enter Your Telephone Number: ";
-    getline(cin, telephoneNumber);
+    telephoneNumber = Handleable::emptyString(readLine(), "Telephone Number");
     cout << "Enter Your Address: ";
-    getline(cin, address);
+    address = Handleable::emptyString(readLine(), "Address");
     cout << "Enter Your Nationality: ";
-    getline(cin, nationality);
+    nationality = Handleable::emptyString(readLine(), "Nationality");
 
-    if (!isUniqueInfo(nationalID, telephoneNumber)) {
+    for (auto& temp : students) {
+        if (!(temp.second.getNationalID() == nationalID || temp.second.getTelephoneNumber() == telephoneNumber)) {
+            isUnique = false;
+            break;
+        }
+    }
+
+    if (!isUnique) {
         cout << "Data is already exists, Try Again!" << endl;
         return false;
     }
 
     ID = to_string(stoi(students.rbegin()->first) + 1);
     Student student(ID, ID + "@cis.asu.edu.eg", password, name, nationalID, telephoneNumber, address, nationality, 0.0, 1, 19);
-
     students.emplace_hint(students.end(), student.getID(), student);
-    return true;
-}
-
-bool isUniqueInfo(string nationalID, string telephoneNumber) {
-    map<string, Student>::iterator temp = students.begin();
-    for (temp; temp != students.end(); ++temp) {
-        if (temp->second.getNationalID() == nationalID || temp->second.getTelephoneNumber() == telephoneNumber) {
-            return false;
-        }
-    }
+    
     return true;
 }
 
@@ -539,22 +571,20 @@ bool signUpAsAdmin() {
     string username, password;
 
     cout << "Enter Your Username: ";
-    getline(cin, username);
+    username = Handleable::emptyString(readLine(), "Username");
     cout << "Enter Your Password: ";
     password = getPassword();
 
-    auto isValid = [](string username) {
-        map<string, Admin>::iterator temp = admins.find(username);
-        return temp == admins.end();
-    };
+    bool isUnique = (admins.find(username) == admins.end());
 
-    if (!isValid(username)) {
+    if (!isUnique) {
         cout << "Data is already exists, Try Again!" << endl;
         return false;
     }
 
     Admin admin(username, password);
     admins.insert({ username, admin });
+
     return true;
 }
 
@@ -562,75 +592,44 @@ pair<bool, map<string, Student>::iterator> loginAsStudent() {
     string ID, nationalID, password;
 
     cout << "Enter Your ID: ";
-    getline(cin, ID);
+    ID = Handleable::emptyString(readLine(), "ID");
     cout << "Enter Your National ID: ";
-    getline(cin, nationalID);
+    nationalID = Handleable::emptyString(readLine(), "National ID");
     cout << "Enter Your Password: ";
     password = getPassword();
 
-    auto user = isValidInfoAsStudent(ID, password, nationalID);
+    auto isValid = [&]() -> pair<bool, map<string, Student>::iterator> {
+        map<string, Student>::iterator temp = students.find(ID);
+        return {
+            temp != students.end() &&
+            temp->second.getPassword() == password &&
+            temp->second.getNationalID() == nationalID, temp
+        };
+    };
+
+    auto user = isValid();
     if (!user.first) {
         cout << "Invalid ID, National ID, or Password, Try Again!" << endl;
     }
     return user;
 }
 
-pair<bool, map<string, Student>::iterator> isValidInfoAsStudent(string ID, string password, string nationalID) {
-    map<string, Student>::iterator temp = students.find(ID);
-    return {
-        temp != students.end() &&
-        temp->second.getPassword() == password &&
-        temp->second.getNationalID() == nationalID, temp
-    };
-}
-
 pair<bool, map<string, Admin>::iterator> loginAsAdmin() {
     string username, password;
 
     cout << "Enter Your Username: ";
-    getline(cin, username);
+    username = Handleable::emptyString(readLine(), "Username");
     cout << "Enter Your Password: ";
     password = getPassword();
-    auto isValid = [](string username, string password) -> pair<bool, map<string, Admin>::iterator> {
+
+    auto isValid = [&]() -> pair<bool, map<string, Admin>::iterator> {
         map<string, Admin>::iterator temp = admins.find(username);
         return temp != admins.end() && temp->second.getPassword() == password ? make_pair(true, temp) : make_pair(false, temp);
     };
 
-    auto user = isValid(username, password);
+    auto user = isValid();
     if (!user.first) {
         cout << "Invalid ID or Password, Try Again!" << endl;
     }
     return user;
-}
-
-void studentMenu() {
-}
-
-void adminMenu() {
-}
-
-string getPassword() {
-    string password;
-    char ch;
-    while (true) {
-        ch = _getch();
-        if (ch == 13) {
-            // enter buttom
-            if (!password.empty()) {
-                cout << endl;
-                return password;
-            }
-            else
-                continue;
-        }
-        else if ((ch == 8) && (!password.empty())) {
-            // delete buttom
-            cout << "\b \b";
-            password.pop_back();
-        }
-        else if (ch != 8) {
-            password.push_back(ch);
-            cout << "*";
-        }
-    }
 }

@@ -19,5 +19,6 @@ public:
 	void setUsername(string username);
 	string getPassword();
 	void setPassword(string password);
+	//virtual pair<bool, map<string, Person>> login(Person* user) = 0;
 };
 

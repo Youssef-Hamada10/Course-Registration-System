@@ -1,11 +1,11 @@
 #include <iostream>
 #include <iomanip>
+#include <map>
+#include <cmath>
 #include "Student.h"
 #include "Handleable.h"
-#include <map>
 
 using namespace std;
-
 
 Student::Student(string ID, string username, string password, string name, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours)
     :Person(ID, username, password) {
@@ -81,7 +81,7 @@ void Student::setNationality(string nationality) {
     this->nationality = nationality;
 }
 
-float Student::getGpa() const {
+float Student::getGpa() {
     return gpa;
 }
 
@@ -89,7 +89,7 @@ void Student::setGpa(float gpa) {
     this->gpa = gpa;
 }
 
-int Student::getStudyLvl() const {
+int Student::getStudyLvl() {
     return level;
 }
 
@@ -105,7 +105,7 @@ void Student::setCurrentCreditHours(int currentCreditHours) {
     this->currentCreditHours = currentCreditHours;
 }
 
-int Student::getTotalCreditHours() {
+int Student::getTotalCreditHours() const {
     return totalCreditHours;
 }
 
@@ -113,18 +113,11 @@ void Student::setTotatlCreditHours(int totalCreditHours) {
     this->totalCreditHours = totalCreditHours;
 }
 
-void Student::searchForCourses(map<string, Course> courses) {
+void Student::registerCourse(map<string, Course> course) {
+
 }
 
-void Student::addCourse(pair<Course, string> course) {
-    this->registeredCourses.push_front(course);
-}
-
-void Student::registerCourse(map<string, Course> courses) {
-    
-}
-
-void Student::registerCourseInFiles(pair<Course, string> course) {
+void Student::addCourseInFiles(pair<Course, string> course) {
     this->registeredCourses.push_back(course);
 }
 
@@ -136,6 +129,7 @@ void Student::displayInfo() {
     cout << "Address: " << left << setw(34) << address << "Nationality: " << nationality << endl;
     cout << "Level: " << left << setw(36) << level << "Total Credit Hours: " << totalCreditHours << endl;
     cout << "===========================================================================\n";
+    updateGPA();
 }
 
 void Student::displayGrades() {
@@ -159,18 +153,32 @@ void Student::displayPrerequisite(map<string, Course> courses) {
 }
 
 void Student::searchCourse(map<string, Course> courses) {
+    string id = "";
+
+    cout << "Enter Course ID: ";
+    id = Handleable::emptyString([&]() -> string { getline(cin, id); return id; }(), "ID" );
+
+    auto course = courses.find(id);
+
+    if (course != courses.end()) {
+        cout << "Course Has Been Found!\n";
+        course->second.displayCourseInfo();
+    } else {
+        cout << "Course Does Not Exist\n";
+    }
 }
 
 void Student::report() {
 }
 
-void Student::studentMenu(map<string, Course> courses) {
+void Student::menu(map<string, Course> courses) {
     int choice;
-    cout << "Welcome " << this->name << endl;
+    cout << "Welcome " << name << endl;
 
     while (true) {
         cout << "1 : To Display Info.\n2 : To Register Course.\n3 : To View Your Grades.\n4 : To Check Prerequisites For A Course.\n5 : Search For A Course.\n6 : Make A Report.\n7 : Log Out\n";
         choice = Handleable::handlingChoiceNotFound(7);
+        cin.ignore();
         switch (choice) {
         case 1:
             displayInfo();
@@ -190,7 +198,7 @@ void Student::studentMenu(map<string, Course> courses) {
         case 6:
             report();
             break;
-        case 7: 
+        case 7:
             return;
         default:
             break;
@@ -198,11 +206,29 @@ void Student::studentMenu(map<string, Course> courses) {
     }
 }
 
+void Student::updateGPA() {
+    if (registeredCourses.empty()) {
+        return;
+    }
+
+    float gpa = 0.0f;
+    unordered_map<string, float>::iterator it;
+    unordered_map<string, float> grade = {
+        {"A+", 4.0f}, {"A", 4.0f}, {"A-", 3.7f}, {"B+", 3.3f}, {"B", 3.0f},
+        {"B-", 2.7f}, {"C+", 2.3f}, {"C", 2.0f}, {"C-", 1.7f}, {"D+", 1.4f},
+        {"D", 1.0f}, {"D-", 0.7f}, {"F", 0.0f}
+    };
+
+    
+    for (auto iter = registeredCourses.begin(); iter != registeredCourses.end(); ++iter) {
+        it = grade.find(iter->second);
+        if (it != grade.end()) {
+            gpa += it->second;
+        }
+    }
+    this->gpa = round(gpa / registeredCourses.size() * 100.0) / 100.0f;
+}
+
 deque<pair<Course, string>> Student::getRegisteredCourses() {
     return registeredCourses;
 }
-
-deque<pair<Course, string>>* Student::getRegisteredCourses1() {
-    return &registeredCourses;
-}
-
