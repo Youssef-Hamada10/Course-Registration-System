@@ -12,7 +12,7 @@ private:
 	string telephoneNumber;
 	string address;
 	string nationality;
-	deque<pair<Course, string>> registeredCourses;
+	vector<pair<Course*, string>> registeredCourses;
 	float gpa;
 	int level;
 	int totalCreditHours;
@@ -31,7 +31,7 @@ public:
 	string getAddress();
 	void setAddress(string address);
 	string getNationality();
-	void setNationality(string);
+	void setNationality(string nationality);
 	float getGpa();
 	void setGpa(float gpa);
 	int getStudyLvl();
@@ -40,14 +40,14 @@ public:
 	void setCurrentCreditHours(int currentCreditHours);
 	int getTotalCreditHours() const;
 	void setTotatlCreditHours(int totalCreditHours);
-	void registerCourse(map<string, Course> courses);
-	void addCourseInFiles(pair<Course, string> course);
+	void registerCourse(unordered_map<string, Course>& courses);
+	void addCourseInFiles(pair<Course*, string> course);
 	void displayInfo();
 	void displayGrades();
-	void displayPrerequisite(map<string, Course> courses);
-	void searchCourse(map<string, Course> courses);
+	void displayPrerequisite(unordered_map<string, Course>& courses);
+	void searchCourse(unordered_map<string, Course>& courses);
 	void report();
-	void menu(map<string, Course> courses);
+	void menu(unordered_map<string, Course>& courses);
 	void updateGPA();
-	deque<pair<Course, string>> getRegisteredCourses();
+	vector<pair<Course*, string>> getRegisteredCourses();
 };

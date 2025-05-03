@@ -113,11 +113,11 @@ void Student::setTotatlCreditHours(int totalCreditHours) {
     this->totalCreditHours = totalCreditHours;
 }
 
-void Student::registerCourse(map<string, Course> course) {
+void Student::registerCourse(unordered_map<string, Course>& courses) {
 
 }
 
-void Student::addCourseInFiles(pair<Course, string> course) {
+void Student::addCourseInFiles(pair<Course*, string> course) {
     this->registeredCourses.push_back(course);
 }
 
@@ -138,21 +138,19 @@ void Student::displayGrades() {
         return;
     }
 
-    deque<pair<Course, string>> courses = registeredCourses;
-
     cout << left << setw(10) << "ID" << setw(40) << "Course Title" << setw(12) << "Semester" << setw(5) << "Grade\n";
     cout << "=====================================================================" << endl;
-    while (!courses.empty()) {
-        cout << left << setw(10) << courses.front().first.getID() << setw(40) << courses.front().first.getTitle() << setw(12) << (courses.front().first.getSemester() ? "Spring" : "Fall") << setw(5) << courses.front().second << endl;
-        courses.pop_front();
+
+    for (const auto& course : registeredCourses) {
+        cout << left << setw(10) << course.first->getID() << setw(40) << course.first->getTitle() << setw(12) << (course.first->getSemester() ? "Spring" : "Fall") << setw(5) << course.second << endl;
     }
     cout << "=====================================================================" << endl;
 }
 
-void Student::displayPrerequisite(map<string, Course> courses) {
+void Student::displayPrerequisite(unordered_map<string, Course>& courses) {
 }
 
-void Student::searchCourse(map<string, Course> courses) {
+void Student::searchCourse(unordered_map<string, Course>& courses) {
     string id = "";
 
     cout << "Enter Course ID: ";
@@ -171,7 +169,7 @@ void Student::searchCourse(map<string, Course> courses) {
 void Student::report() {
 }
 
-void Student::menu(map<string, Course> courses) {
+void Student::menu(unordered_map<string, Course>& courses) {
     int choice;
     cout << "Welcome " << name << endl;
 
@@ -219,7 +217,6 @@ void Student::updateGPA() {
         {"D", 1.0f}, {"D-", 0.7f}, {"F", 0.0f}
     };
 
-    
     for (auto iter = registeredCourses.begin(); iter != registeredCourses.end(); ++iter) {
         it = grade.find(iter->second);
         if (it != grade.end()) {
@@ -229,6 +226,6 @@ void Student::updateGPA() {
     this->gpa = round(gpa / registeredCourses.size() * 100.0) / 100.0f;
 }
 
-deque<pair<Course, string>> Student::getRegisteredCourses() {
+vector<pair<Course*, string>> Student::getRegisteredCourses() {
     return registeredCourses;
 }

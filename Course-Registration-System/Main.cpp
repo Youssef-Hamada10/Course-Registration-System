@@ -15,7 +15,7 @@ using namespace std;
 
 map<string, Student> students;
 map<string, Admin> admins;
-map<string, Course> courses;
+unordered_map<string, Course> courses;
 
 queue<string> split(string line, char ch);
 void readStudents();
@@ -43,13 +43,13 @@ int main() {
     readCourses();
     readStudents();
     readAdmins();
-    
+
     auto menuChoice = [](int choice = 0) -> int {
         cout << "Course Registration Management System\n------------------------------------\n";
         cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
         return choice;
-    };
+        };
 
     while (access)
         access = mainMenu(menuChoice());
@@ -59,12 +59,12 @@ int main() {
     }
 
     cout << "Thanks For Using Our System :)" << endl;
-    
-    //writeCourses();
-    //writeInstructors();
-    //writePrerequisites();
-    //writeStudents();
-    //writeAdmins();
+
+    writeCourses();
+    writeInstructors();
+    writePrerequisites();
+    writeStudents();
+    writeAdmins();
 
     return 0;
 }
@@ -117,7 +117,7 @@ void readStudents() {
             grades = split(data.front(), '&'), data.pop();
             while (!IDs.empty() && IDs.front() != "" &&
                 !grades.empty() && grades.front() != "") {  // get registered courses IDs
-                student.addCourseInFiles({ courses[IDs.front()], grades.front() });
+                student.addCourseInFiles({ &courses[IDs.front()], grades.front() });
                 IDs.pop(), grades.pop();
             }
         }
@@ -136,7 +136,7 @@ void writeStudents() {
 
     file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades\n";  // Header
 
-    deque<pair<Course, string>> registeredCourses;
+    vector<pair<Course*, string>> registeredCourses;
     string IDs;
     string grades;
 
@@ -158,10 +158,10 @@ void writeStudents() {
         IDs = "";
         grades = "";
 
-        for (auto c = registeredCourses.begin(); c != registeredCourses.end(); ++c) {
-            IDs.append(c->first.getID());
+        for (const auto& c : registeredCourses) {
+            IDs.append(c.first->getID());
             IDs.append("&");
-            grades.append(c->second);
+            grades.append(c.second);
             grades.append("&");
         }
 
@@ -301,7 +301,7 @@ void readInstructors() {
         instructor->name = data.front(), data.pop();
         instructor->department = data.front(), data.pop();
         instructor->courseID = data.front(), data.pop();
-        if(instructor->courseID != "")
+        if (instructor->courseID != "")
             courses[instructor->courseID].addInstructor(instructor);
     }
     for (auto& it : courses) {
@@ -563,7 +563,7 @@ bool signUpAsStudent() {
     ID = to_string(stoi(students.rbegin()->first) + 1);
     Student student(ID, ID + "@cis.asu.edu.eg", password, name, nationalID, telephoneNumber, address, nationality, 0.0, 1, 19);
     students.emplace_hint(students.end(), student.getID(), student);
-    
+
     return true;
 }
 
@@ -605,7 +605,7 @@ pair<bool, map<string, Student>::iterator> loginAsStudent() {
             temp->second.getPassword() == password &&
             temp->second.getNationalID() == nationalID, temp
         };
-    };
+        };
 
     auto user = isValid();
     if (!user.first) {
@@ -625,7 +625,7 @@ pair<bool, map<string, Admin>::iterator> loginAsAdmin() {
     auto isValid = [&]() -> pair<bool, map<string, Admin>::iterator> {
         map<string, Admin>::iterator temp = admins.find(username);
         return temp != admins.end() && temp->second.getPassword() == password ? make_pair(true, temp) : make_pair(false, temp);
-    };
+        };
 
     auto user = isValid();
     if (!user.first) {

@@ -16,8 +16,8 @@ struct Instructor {
 	bool operator==(const Instructor& other) const {
 		return ID == other.ID;
 	};
-};
 
+};
 class Course {
 private:
 	string ID;
@@ -40,9 +40,9 @@ public:
 	void setSyllabus(string syllabus);
 	vector<Course*> getPrerequisite();
 	void addPrerequisite(Course* course);
-	void removePrerequisite(Course course);
+	void removePrerequisite(Course& course);
 	void addInstructor(Instructor* instructor);
-	void removeInstructor(Instructor instructor);
+	void removeInstructor(Instructor& instructor);
 	int getCreditHours();
 	void setCreditHours(int creditHours);
 	Semester getSemester();

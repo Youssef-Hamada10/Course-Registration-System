@@ -59,7 +59,7 @@ void Course::addPrerequisite(Course* course) {
     prerequisites.push_back(course);
 }
 
-void Course::removePrerequisite(Course course) {
+void Course::removePrerequisite(Course& course) {
     auto it = find(prerequisites.begin(), prerequisites.end(), &course);
     if (it != prerequisites.end()) {
         prerequisites.erase(it);
@@ -72,7 +72,7 @@ void Course::addInstructor(Instructor* instructor) {
     instructors.push_back(instructor);
 }
 
-void Course::removeInstructor(Instructor instructor) {
+void Course::removeInstructor(Instructor& instructor) {
     auto it = find(instructors.begin(), instructors.end(), &instructor);
     if (it != instructors.end()) {
         instructors.erase(it);
