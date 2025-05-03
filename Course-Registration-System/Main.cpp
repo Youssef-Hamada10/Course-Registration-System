@@ -549,7 +549,7 @@ bool signUpAsStudent() {
     nationality = Handleable::emptyString(readLine(), "Nationality");
 
     for (auto& temp : students) {
-        if (!(temp.second.getNationalID() == nationalID || temp.second.getTelephoneNumber() == telephoneNumber)) {
+        if (temp.second.getNationalID() == nationalID || temp.second.getTelephoneNumber() == telephoneNumber) {
             isUnique = false;
             break;
         }
