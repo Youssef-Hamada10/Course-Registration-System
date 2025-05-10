@@ -1,33 +1,33 @@
-Course ID,Title,Syllabus,Credit Hours,Semester,Instructor ID,Prerequisite ID
-BSC121,Physics 1,10 Lectures,3,Fall,INS#3&INS#2
-BSC225,Linear Algebra,10 Lectures,3,Spring,INS#28
-BSC122,Calculus 1,10 Lectures,3,Fall,INS#5&INS#4
-BSC123,Probability & Statistical,10 Lectures,3,Fall,INS#8&INS#7
-CIS124,Electronics,10 Lectures,4,Spring,INS#11,BSC121
-BSC125,Calculus 2,10 Lectures,3,Spring,INS#12,BSC122
-BSC221,Discrete Mathematics,10 Lectures,3,Fall,INS#18
-CIS220,Computer Organization & Architecture,10 Lectures,3,Spring,INS#25,CIS260
-BSC126,Physics 2,10 Lectures,3,Spring,INS#14&INS#13,BSC121
-CIS150,Structured Programming,10 Lectures,3,Spring,INS#10,CIS160
-CIS160,Intro to Computer,10 Lectures,3,Fall,INS#1
-STU130,Profesional Ethics,10 Lectures,2,Spring,INS#9
-CIS230,Operations Research,10 Lectures,3,Spring,INS#30&INS#29
-CIS240,Statistical Analysis,10 Lectures,3,Fall,INS#24&INS#23,BSC123
-CIS243,Artificial Intelligence,10 Lectures,3,Spring,INS#31,CIS150
-CIS250,Object oriented Programming,10 Lectures,3,Fall,INS#17,CIS150
-CIS365,Computer Networks,10 Lectures,3,Fall,INS#33,CIS160
-CIS260,Logic Design,10 Lectures,3,Fall,INS#20&INS#19,BSC121
-CIS270,Data Structure,10 Lectures,3,Spring,INS#27&INS#26,CIS250
-CIS280,Database Management Systems,10 Lectures,3,Fall,INS#22&INS#21,CIS150
-CIS290,System Analysis & Design,10 Lectures,3,Fall,INS#34,CIS280
-INF311,Data Mining,10 Lectures,3,Fall,INS#36,CIS280
-CIS340,Analysis & Design of Algorithms,10 Lectures,3,Spring,INS#39,CIS150
-SCO311,Computer Graphics,10 Lectures,3,Fall,INS#35,CIS150
-CSC360,Compiler Theory,10 Lectures,3,Spring,INS#43&INS#42,BSC221
-CIS353,Operating System,10 Lectures,3,Fall,INS#32,CIS220
-CIS380,Software Engineering,10 Lectures,3,Spring,INS#38&INS#37,CIS150
-CSC330,Pattern Recognition,10 Lectures,3,Spring,INS#40,BSC123&CIS150
-CSC340,Natural Language Processing,10 Lectures,3,Spring,INS#41,CIS150
-CSC350,Concepts of Programming Languages,10 Lectures,3,Spring,INS#44,CIS250
-HUM110,English Language 1,10 Lectures,2,Fall,INS#6
-HUM113,Report Writing,10 Lectures,2,Fall,INS#16&INS#15
+Course ID,Title,Syllabus,Credit Hours,Semester,Required Major,Instructor ID,Prerequisite ID
+BSC121,Physics 1,10 Lectures,3,Fall,General,INS#3&INS#2
+BSC122,Calculus 1,10 Lectures,3,Fall,General,INS#2&INS#5
+BSC225,Linear Algebra,10 Lectures,3,Spring,General,INS#2
+BSC123,Probability & Statistical,10 Lectures,3,Fall,General,INS#8&INS#7
+BSC125,Calculus 2,10 Lectures,3,Spring,General,INS#12,BSC122
+CIS124,Electronics,10 Lectures,4,Spring,General,INS#11,BSC121
+BSC126,Physics 2,10 Lectures,3,Spring,General,INS#7&INS#14,BSC121
+CIS220,Computer Organization & Architecture,10 Lectures,3,Spring,General,INS#8,CIS260
+BSC221,Discrete Mathematics,10 Lectures,3,Fall,General,INS#12
+CIS150,Structured Programming,10 Lectures,3,Spring,General,INS#10,CIS160
+CIS160,Intro to Computer,10 Lectures,3,Fall,General,INS#10
+CIS230,Operations Research,10 Lectures,3,Spring,General,INS#5&INS#29
+STU130,Profesional Ethics,10 Lectures,2,Spring,General,INS#9
+CIS240,Statistical Analysis,10 Lectures,3,Fall,General,INS#8&INS#24,BSC123
+CIS243,Artificial Intelligence,10 Lectures,3,Spring,General,INS#31,CIS150
+CIS250,Object oriented Programming,10 Lectures,3,Fall,General,INS#17,CIS150
+CIS260,Logic Design,10 Lectures,3,Fall,General,INS#20&INS#19,BSC121
+CIS365,Computer Networks,10 Lectures,3,Fall,CS&IS&SC&CSYS,INS#33,CIS160
+CIS270,Data Structure,10 Lectures,3,Spring,General,INS#36&INS#27,CIS250
+CIS280,Database Management Systems,10 Lectures,3,Fall,General,INS#22&INS#21,CIS150
+CIS290,System Analysis & Design,10 Lectures,3,Fall,CS&IS&SC&CSYS,INS#34,CIS280
+CIS340,Analysis & Design of Algorithms,10 Lectures,3,Spring,CS&IS&SC&CSYS,INS#32,CIS150
+INF311,Data Mining,10 Lectures,3,Fall,CS&IS,INS#36,CIS280
+CIS353,Operating System,10 Lectures,3,Fall,General,INS#32,CIS220
+CSC360,Compiler Theory,10 Lectures,3,Spring,CS,INS#43&INS#42,BSC221
+SCO311,Computer Graphics,10 Lectures,3,Fall,CS&SC,INS#3,CIS150
+CIS380,Software Engineering,10 Lectures,3,Spring,CS&IS&SC&CSYS,INS#38&INS#21,CIS150
+CSC330,Pattern Recognition,10 Lectures,3,Spring,CS,INS#40,BSC123&CIS150
+CSC340,Natural Language Processing,10 Lectures,3,Spring,CS,INS#43,CIS150
+CSC350,Concepts of Programming Languages,10 Lectures,3,Spring,CS&SC,INS#17,CIS250
+HUM110,English Language 1,10 Lectures,2,Fall,General,INS#6
+HUM113,Report Writing,10 Lectures,2,Fall,General,INS#11&INS#43

@@ -1,7 +1,7 @@
 #pragma once
 #include "Person.h"
 #include "Course.h"
-#include <deque>
+#include <vector>
 #include <map>
 #include <unordered_map>
 
@@ -12,6 +12,7 @@ private:
 	string telephoneNumber;
 	string address;
 	string nationality;
+	string major;
 	vector<pair<Course*, string>> registeredCourses;
 	float gpa;
 	int level;
@@ -32,6 +33,8 @@ public:
 	void setAddress(string address);
 	string getNationality();
 	void setNationality(string nationality);
+	string getMajor();
+	void setMajor(string major);
 	float getGpa();
 	void setGpa(float gpa);
 	int getStudyLvl();

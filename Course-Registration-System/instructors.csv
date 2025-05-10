@@ -1,45 +1,29 @@
 Instructor ID,Name,Department,Course ID
-INS#3,Salsabil Amin,Basic Science,BSC121
-INS#2,Esraa AbdelRauf,Basic Science,BSC121
-INS#28,Esraa AbdelRauf,Basic Science,BSC225
-INS#5,Doaa Ezzat,Scientific Computing,BSC122
-INS#4,Esraa AbdelRauf,Basic Science,BSC122
-INS#8,Hanan Ahmed,Basic Science,BSC123
-INS#7,Hassan Ramadan,Basic Science,BSC123
-INS#11,Mahmoud Fayez,Computer Systems,CIS124
-INS#12,Mohamed AbdelAl,Basic Science,BSC125
-INS#18,Mohamed AbdelAl,Basic Science,BSC221
-INS#25,Hanan Ahmed,Basic Science,CIS220
-INS#14,Mahmoud Mounir,Infrmation System,BSC126
-INS#13,Hassan Ramadan,Basic Science,BSC126
-INS#10,Naglaa Fathy,Infrmation System,CIS150
-INS#1,Naglaa Fathy,Infrmation System,CIS160
-INS#9,Ahmed AlAwady,General,STU130
-INS#30,Doaa Ezzat,Scientific Computing,CIS230
-INS#29,Safaa Amin,Scientific Computing,CIS230
-INS#24,Shaimaa Haridy,Basic Science,CIS240
-INS#23,Hanan Ahmed,Basic Science,CIS240
-INS#31,Dina ElSsayad,Computer & Information Science,CIS243
-INS#17,Mohamed Mabrouk,Computer Science,CIS250
+INS#32,Ahmed Salah,Computer Science,CIS353&CIS340
+INS#3,Salsabil Amin,Basic Science,BSC121&SCO311
 INS#33,Dina Fawzy,General,CIS365
+INS#2,Esraa AbdelRauf,Basic Science,BSC121&BSC122&BSC225
+INS#34,Yasmine Afife,Infrmation System,CIS290
+INS#5,Doaa Ezzat,Scientific Computing,BSC122&CIS230
+INS#8,Hanan Ahmed,Basic Science,BSC123&CIS220&CIS240
+INS#7,Hassan Ramadan,Basic Science,BSC123&BSC126
+INS#36,Wedad Hussein,General,INF311&CIS270
+INS#12,Mohamed AbdelAl,Basic Science,BSC125&BSC221
+INS#11,Mahmoud Fayez,Computer Systems,CIS124&HUM113
+INS#14,Mahmoud Mounir,Infrmation System,BSC126
+INS#10,Naglaa Fathy,Infrmation System,CIS150&CIS160
+INS#29,Safaa Amin,Scientific Computing,CIS230
+INS#9,Ahmed AlAwady,General,STU130
+INS#38,Huda Amin,General,CIS380
+INS#24,Shaimaa Haridy,Basic Science,CIS240
+INS#31,Dina ElSsayad,Computer & Information Science,CIS243
+INS#17,Mohamed Mabrouk,Computer Science,CIS250&CSC350
 INS#20,Donia Gamal,Computer Systems,CIS260
 INS#19,Randa Mohamed,Computer Systems,CIS260
 INS#27,Hanan Hindy,Computer Science,CIS270
-INS#26,Wedad Hussein,General,CIS270
 INS#22,AlShaimaa AboAlian,Infrmation System,CIS280
-INS#21,Nagwa Badr,Infrmation System,CIS280
-INS#34,Yasmine Afife,Infrmation System,CIS290
-INS#36,Wedad Hussein,General,INF311
-INS#39,Ahmed Salah,Computer Science,CIS340
-INS#35,Salsabil Amin,Basic Science,SCO311
-INS#43,Sally Saad,Basic Science,CSC360
+INS#21,Nagwa Badr,Infrmation System,CIS280&CIS380
+INS#43,Sally Saad,Basic Science,CSC360&CSC340&HUM113
 INS#42,Zaki taha,Computer Science,CSC360
-INS#32,Ahmed Salah,Computer Science,CIS353
-INS#38,Huda Amin,General,CIS380
-INS#37,Nagwa Badr,Infrmation System,CIS380
-INS#40,Dina Khattab,Scientific Computing,CSC330
-INS#41,Sally Saad,Basic Science,CSC340
-INS#44,Mohamed Mabrouk,Computer Science,CSC350
 INS#6,Marian Nabil,General,HUM110
-INS#16,Mahmoud Fayez,Computer Systems,HUM113
-INS#15,Sally Saad,Basic Science,HUM113
+INS#40,Dina Khattab,Scientific Computing,CSC330

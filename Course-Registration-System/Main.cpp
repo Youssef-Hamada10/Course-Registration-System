@@ -3,7 +3,6 @@
 #include <fstream>
 #include <queue>
 #include <conio.h>
-#include <deque>
 #include <string>
 #include <forward_list>
 #include "Admin.h"
@@ -16,6 +15,7 @@ using namespace std;
 map<string, Student> students;
 map<string, Admin> admins;
 unordered_map<string, Course> courses;
+unordered_map<string, Instructor> instructors;
 
 queue<string> split(string line, char ch);
 void readStudents();
@@ -54,9 +54,7 @@ int main() {
     while (access)
         access = mainMenu(menuChoice());
 
-    for (auto& it : students) {
-        cout << "stu: " << it.second.getPassword() << endl;
-    }
+            
 
     cout << "Thanks For Using Our System :)" << endl;
 
@@ -109,6 +107,7 @@ void readStudents() {
         student.setAddress(data.front()), data.pop();
         student.setGpa(stof(data.front())), data.pop();
         student.setStudyLvl(stoi(data.front())), data.pop();
+        student.setMajor(data.front()), data.pop();
         student.setCurrentCreditHours(stoi(data.front())), data.pop();
         student.setTotatlCreditHours(stoi(data.front())), data.pop();
 
@@ -134,7 +133,7 @@ void writeStudents() {
         cout << "Error opening students file!" << endl;
     }
 
-    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Study Level,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades\n";  // Header
+    file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Level,Major,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades\n";  // Header
 
     vector<pair<Course*, string>> registeredCourses;
     string IDs;
@@ -151,6 +150,7 @@ void writeStudents() {
         file << it.second.getAddress() << ",";
         file << it.second.getGpa() << ",";
         file << it.second.getStudyLvl() << ",";
+        file << it.second.getMajor() << ",";
         file << it.second.getCurrentCreditHours() << ",";
         file << it.second.getTotalCreditHours();
 
@@ -223,17 +223,25 @@ void readCourses() {
 
     string line;
     queue<string> data;
-    Course course;
+    queue<string> majors;
 
     getline(file, line);  // to ignore header
 
     while (getline(file, line)) {
+        Course course;
         data = split(line, ',');
         course.setID(data.front()), data.pop();
         course.setTitle(data.front()), data.pop();
         course.setSyllabus(data.front()), data.pop();
         course.setCreditHours(stoi(data.front())), data.pop();
         course.setSemester(data.front() == "Fall" ? Fall : Spring), data.pop();
+        if (!data.empty() && data.front() != "") {
+            majors = split(data.front(), '&'), data.pop();
+            while (!majors.empty() && majors.front() != "") {
+                course.addMajor(majors.front());
+                majors.pop();
+            }
+        }
         courses.insert({ course.getID(), course });
     }
     readInstructors();
@@ -252,30 +260,41 @@ void writeCourses() {
 
     string instructorsIDs;
     string prerequisitesIDs;
+    string majors;
 
-    file << "Course ID,Title,Syllabus,Credit Hours,Semester,Instructor ID,Prerequisite ID\n";
+    file << "Course ID,Title,Syllabus,Credit Hours,Semester,Required Major,Instructor ID,Prerequisite ID\n";
 
     for (auto& it : courses) {
         instructorsIDs = "";
         prerequisitesIDs = "";
+        majors = "";
         file << it.first << ",";
         file << it.second.getTitle() << ",";
         file << it.second.getSyllabus() << ",";
         file << it.second.getCreditHours() << ",";
         file << (it.second.getSemester() == Fall ? "Fall" : "Spring");
+        for (auto& major : it.second.getReqMajors()) {
+            majors.append(major);
+            majors.append("&");
+        }
+        if (!it.second.getReqMajors().empty()) {
+            file << "," << majors.substr(0, majors.length() - 1);
+        }
 
         for (auto& inst : it.second.getInstructors()) {
             instructorsIDs.append(inst->ID);
             instructorsIDs.append("&");
         }
-        file << "," << instructorsIDs.substr(0, instructorsIDs.size() - 1);
+        if (!it.second.getInstructors().empty()) {
+            file << "," << instructorsIDs.substr(0, instructorsIDs.length() - 1);
+        }
 
         for (auto& pre : it.second.getPrerequisite()) {
             prerequisitesIDs.append(pre->getID());
             prerequisitesIDs.append("&");
         }
         if (!it.second.getPrerequisite().empty())
-            file << "," << prerequisitesIDs.substr(0, prerequisitesIDs.size() - 1);
+            file << "," << prerequisitesIDs.substr(0, prerequisitesIDs.length() - 1);
 
         file << endl;
     }
@@ -291,25 +310,30 @@ void readInstructors() {
 
     string line;
     queue<string> data;
+    queue<string> courseIDs;
 
     getline(file, line); // to ignore header
 
     while (getline(file, line)) {
+        Instructor instructor;
         data = split(line, ',');
-        Instructor* instructor = new Instructor();
-        instructor->ID = data.front(), data.pop();
-        instructor->name = data.front(), data.pop();
-        instructor->department = data.front(), data.pop();
-        instructor->courseID = data.front(), data.pop();
-        if (instructor->courseID != "")
-            courses[instructor->courseID].addInstructor(instructor);
-    }
-    for (auto& it : courses) {
-        cout << "Course: " << endl;
-        for (auto& pre : it.second.getInstructors()) {
-            cout << "Instructor: " << pre->name << endl;
+        instructor.ID = data.front(), data.pop();
+        instructor.name = data.front(), data.pop();
+        instructor.department = data.front(), data.pop();
+        courseIDs = split(data.front(), '&'), data.pop();
+        while (!courseIDs.empty() && courseIDs.front() != "") {
+            instructor.courseIDs.push_back(courseIDs.front());
+            courseIDs.pop();
         }
+        instructors.insert({instructor.ID, instructor});
     }
+
+    for (auto& it : instructors) {
+        for (auto& ID : it.second.courseIDs) {
+            courses[ID].addInstructor(&it.second);
+    }
+        }
+
     file.close();
 }
 
@@ -321,15 +345,22 @@ void writeInstructors() {
         return;
     }
 
+    string courseIDs;
     file << "Instructor ID,Name,Department,Course ID\n";  // Header
 
-    for (auto& it : courses) {
-        for (auto& inst : it.second.getInstructors()) {
-            file << inst->ID << ",";
-            file << inst->name << ",";
-            file << inst->department << ",";
-            file << it.first << endl;
+    for (auto& it : instructors) {
+        file << it.first << ",";
+        file << it.second.name << ",";
+        file << it.second.department;
+        courseIDs = "";
+        for (auto& courseID : it.second.courseIDs) {
+            courseIDs.append(courseID);
+            courseIDs.append("&");
         }
+
+        if (!it.second.courseIDs.empty())
+            file << "," << courseIDs.substr(0, courseIDs.size() - 1);
+        file << endl;
     }
 
     file.close();
@@ -443,22 +474,23 @@ string readLine() {
 }
 
 bool mainMenu(int choice) {
+    system("cls");
     int counter = 0;
     bool loggedIn = false, signedUp = false, flag = false;
 
     if (choice == 1) {
-        cout << "1: Sign Up As a Student.\n2: Sign Up As an Admin.\n3: Exit.\nYour Choice: ";
+        cout << "\n1: Sign Up As a Student.\n2: Sign Up As an Admin.\n3: Exit.\n\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
         cin.ignore();
 
         if (choice == 1) {
             while (!signedUp) {
-                ++counter;
-                signedUp = signUpAsStudent();
                 if (counter > 2) {
                     flag = true;
                     break;
                 }
+                ++counter;
+                signedUp = signUpAsStudent();
             }
 
             if (flag) {
@@ -469,12 +501,12 @@ bool mainMenu(int choice) {
 
         else if (choice == 2) {
             while (!signedUp) {
-                ++counter;
-                signedUp = signUpAsAdmin();
                 if (counter > 2) {
                     flag = true;
                     break;
                 }
+                ++counter;
+                signedUp = signUpAsAdmin();
             }
 
             if (flag) {
@@ -485,21 +517,21 @@ bool mainMenu(int choice) {
     }
 
     else if (choice == 2) {
-        cout << "1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\nYour Choice: ";
+        cout << "\n1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\n\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
 
         cin.ignore();
         if (choice == 1) {
             pair<bool, map<string, Student>::iterator> student;
             while (!loggedIn) {
-                ++counter;
-                student = loginAsStudent();
-                loggedIn = student.first;
-
                 if (counter > 2) {
                     flag = true;
                     break;
                 }
+
+                ++counter;
+                student = loginAsStudent();
+                loggedIn = student.first;
             }
 
             if (flag) {
@@ -512,19 +544,20 @@ bool mainMenu(int choice) {
         else if (choice == 2) {
             pair<bool, map<string, Admin>::iterator> admin;
             while (!loggedIn) {
-                ++counter;
-                admin = loginAsAdmin();
-                loggedIn = admin.first;
-
                 if (counter > 2) {
                     flag = true;
                     break;
                 }
+
+                ++counter;
+                admin = loginAsAdmin();
+                loggedIn = admin.first;
             }
 
             if (flag) {
                 return 1;
             }
+            admin.second->second.menu(students, courses);
             cout << "Logged In Is Done!" << endl;
         }
     }

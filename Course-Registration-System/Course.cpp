@@ -12,14 +12,15 @@ Course::Course(string ID, string title, string syllabus, vector<Course*> prerequ
     this->semester = semester;
 }
 
-Course::Course(const Course& course) {
-    this->ID = course.ID;
-    this->title = course.title;
-    this->syllabus = course.syllabus;
-    this->prerequisites = course.prerequisites;
-    this->creditHours = course.creditHours;
-    this->instructors = course.instructors;
-    this->semester = course.semester;
+Course::Course(const Course& other) {
+    this->ID = other.ID;
+    this->title = other.title;
+    this->syllabus = other.syllabus;
+    this->prerequisites = other.prerequisites;
+    this->creditHours = other.creditHours;
+    this->instructors = other.instructors;
+    this->semester = other.semester;
+    this->reqMajor = other.reqMajor;
 }
 
 Course::Course() {
@@ -97,12 +98,31 @@ void Course::setSemester(Semester semester) {
     this->semester = semester;
 }
 
+vector<string> Course::getReqMajors() {
+    return reqMajor;
+}
+
+void Course::addMajor(string major) {
+    reqMajor.push_back(major);
+}
+
+void Course::removeMajor(string major) {
+    auto it = find(reqMajor.begin(), reqMajor.end(), major);
+
+    if (it != reqMajor.end()) {
+        reqMajor.erase(it);
+    } else {
+        cout << "Major Does Not Exist!\n";
+    }
+}
+
 vector<Instructor*> Course::getInstructors() {
     return instructors;
 }
 
 void Course::displayCourseInfo() {
-    cout << "Course ID: " << this->ID << endl;
+    system("cls");
+    cout << "\nCourse ID: " << this->ID << endl;
     cout << "Course Name: " << this->title << endl;
     cout << "Course Syllabus: " << this->syllabus << endl;
     cout << "Course semester: " << (this->semester ? "Spring" : "Fall") << endl;
@@ -123,11 +143,4 @@ bool Course::operator==(const Course& other) const {
     return this->ID == other.ID;
 }
 
-Course::~Course() {
-    for (auto& it : this->instructors) {
-        if (!it) {
-            delete it;
-        }
-    }
-}
 
