@@ -56,7 +56,7 @@ void Admin::menu(map<string, Student>& students, unordered_map<string, Course>& 
 }
 
 void Admin::manageGrades() { // to do
-    unordered_set<string> grades = {} // assign grades here
+   // unordered_set<string> grades = {} // assign grades here
 }
 
 void Admin::setPrerequisites(string courseID, vector<string> prerequisiteIDs, unordered_map<string, Course>& courses) {
