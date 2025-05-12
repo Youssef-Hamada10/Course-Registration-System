@@ -121,7 +121,6 @@ vector<Instructor*> Course::getInstructors() {
 }
 
 void Course::displayCourseInfo() {
-    system("cls");
     cout << "\nCourse ID: " << this->ID << endl;
     cout << "Course Name: " << this->title << endl;
     cout << "Course Syllabus: " << this->syllabus << endl;

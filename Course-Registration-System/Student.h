@@ -48,6 +48,7 @@ public:
 	void displayInfo();
 	void displayGrades();
 	void displayPrerequisite(unordered_map<string, Course>& courses);
+	void displayAllPrerequisite(unordered_map<string, Course>& courses);
 	void searchCourse(unordered_map<string, Course>& courses);
 	void report();
 	void menu(unordered_map<string, Course>& courses);

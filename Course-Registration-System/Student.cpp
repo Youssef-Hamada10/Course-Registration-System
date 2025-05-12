@@ -6,6 +6,7 @@
 #include "Handleable.h"
 #include <fstream>
 #include <conio.h>
+#include <windows.h>
 using namespace std;
 
 Student::Student(string ID, string username, string password, string name, string nationalID, string telephoneNumber, string address, string nationality, float gpa, int level, int currentCreditHours)
@@ -134,7 +135,11 @@ void Student::registerCourse(unordered_map<string, Course>&courses)//why refrenc
     for (auto course : courses) {
         if (course.second.getSemester() == 0)
         {
-            cout << left << setw(10) << course.first << setw(45) << course.second.getTitle() << course.second.getCreditHours() << endl;
+            for (string major : course.second.getReqMajors())
+            {
+                if(major==this->major||major == "General")
+                    cout << left << setw(10) << course.first << setw(45) << course.second.getTitle() << course.second.getCreditHours() << endl;
+            }
         }
     }
     cout << "=====================================================================" << endl;
@@ -143,6 +148,17 @@ void Student::registerCourse(unordered_map<string, Course>&courses)//why refrenc
     auto it = courses.find(id);
     if (it != courses.end() && it->second.getSemester() == 0)
     {
+        for (string major : it->second.getReqMajors())
+        {
+            if (major != this->major || major != "General")
+            {
+                cout << "Course is not Avaliable for this department\nn";
+                cout << "\npress any key to continue :";
+                _getch();
+                menu(courses);
+            }
+        }
+        system("cls");
         it->second.displayCourseInfo();
         cout << "\nAre you sure you want to register " << it->second.getTitle() << " ?\n";
         char choice = Handleable::toContinue();
@@ -212,12 +228,51 @@ void Student::displayGrades() {
 }
 
 void Student::displayPrerequisite(unordered_map<string, Course>& courses) {
+    char choice;
+    while (true) {
+        system("cls");
+        cout << "------------------------------------------";
+        cout << "\n1 :Search Prequisite for Specific Course\n2 :Check Prequisite for all Courses \n3 :Return Menu\n\n\nYour Choice:";
+        choice = Handleable::handlingChoiceNotFound(3);
+        cin.ignore();
+        switch (choice) {
+        case 1:
+            searchCourse(courses);
+            break;
+        case 2:
+            displayAllPrerequisite(courses);
+            break;
+        case 3:
+            menu(courses);
+            break;
+        default:
+            break;
+        }
+    }
     cout << "\npress any key to continue :";
     _getch();
 }
-
+void Student::displayAllPrerequisite(unordered_map<string, Course>& courses) {
+    system("cls");
+    for (auto course : courses) {
+        if (course.second.getSemester() == 0)
+        {
+            for (string major : course.second.getReqMajors())
+            {
+                if (major == this->major || major == "General")
+                {
+                    course.second.displayCourseInfo();
+                    Sleep(1000);
+                }
+            }
+        }
+    }
+    cout << "\npress any key to continue :";
+    _getch();
+}
 void Student::searchCourse(unordered_map<string, Course>& courses) {
     system("cls");
+    cout << "------------------------------------------";
     string id = "";
     cout << "\nEnter Course ID: ";
     id = Handleable::emptyString([&]() -> string { getline(cin, id); return id; }(), "ID" );
@@ -237,9 +292,10 @@ void Student::searchCourse(unordered_map<string, Course>& courses) {
 /* 
 * Report logic without html code
 void Student::report() {
-    cout << "name :" << this->name<<endl;
-    cout <<"id :"<< this->ID<<endl;
-    cout << "level :" << this->level << endl;
+    cout << "Name :" << this->name<<endl;
+    cout <<"Id :"<< this->ID<<endl;
+    cout << "Level :" << this->level << endl;
+    cout<<"Department :"<<this->major<<endl;
     string semster ="";
     string temp = "";
     for (const auto& course : registeredCourses) {
@@ -256,6 +312,7 @@ void Student::report() {
 */
 void Student::report() {
     system("cls");
+    cout << "------------------------------------------";
     ofstream htmlFile("student_report.html");
     htmlFile << "<html>\n";
     htmlFile << "<head>\n";
@@ -272,10 +329,11 @@ void Student::report() {
     htmlFile << "</style>\n";
     htmlFile << "</head>\n";
     htmlFile << "<body>\n";
-    //htmlFile << "<h1>Student Report</h1>\n";
+    htmlFile << "<h1>Student Report</h1>\n";
     htmlFile << "<p><strong>Name:</strong> " << this->name << "</p>\n";
     htmlFile << "<p><strong>ID:</strong> " << this->ID << "</p>\n";
     htmlFile << "<p><strong>Level:</strong> " << this->level << "</p>\n";
+    htmlFile << "<p><strong>Department :</strong> " << this->major << "</p>\n";
     string semester = "";
     string temp = "";
 
@@ -296,6 +354,8 @@ void Student::report() {
         htmlFile << "</tr>\n";
     }
     htmlFile << "</table>\n";
+   // htmlFile << "<p><strong>Cgpa:</strong> " << this->gpa << "</p>\n";
+    htmlFile << "<p style='font-size: 18px;'><strong>CGPA:</strong> " << this->gpa << "</p>\n";
     htmlFile << "</body>\n";
     htmlFile << "</html>\n";
     htmlFile.close();
@@ -348,7 +408,6 @@ void Student::updateGPA() {
     if (registeredCourses.empty()) {
         return;
     }
-
     float gpa = 0.0f;
     unordered_map<string, float>::iterator it;
     unordered_map<string, float> grade = {
@@ -360,10 +419,10 @@ void Student::updateGPA() {
     for (auto iter = registeredCourses.begin(); iter != registeredCourses.end(); ++iter) {
         it = grade.find(iter->second);
         if (it != grade.end()) {
-            gpa += it->second;
+            gpa += (it->second*iter->first->getCreditHours());
         }
     }
-    this->gpa = round(gpa / registeredCourses.size() * 100.0) / 100.0f;
+    this->gpa = round(gpa / this->totalCreditHours);
 }
 
 vector<pair<Course*, string>> Student::getRegisteredCourses() {

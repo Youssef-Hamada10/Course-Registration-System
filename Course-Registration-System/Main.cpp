@@ -475,6 +475,7 @@ string readLine() {
 
 bool mainMenu(int choice) {
     system("cls");
+    cout << "------------------------------------------";
     int counter = 0;
     bool loggedIn = false, signedUp = false, flag = false;
 
