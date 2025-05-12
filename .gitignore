@@ -3,6 +3,9 @@
 /x64/
 /Debug/
 /Release/
+/Course-Registration-System/x64
+/Course-Registration-System/Course-Registration-System.vcxproj
+/Course-Registration-System/Course-Registration-System.vcxproj.filters
 .vs/
 *.suo
 *.user
