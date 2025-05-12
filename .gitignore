@@ -1,0 +1,17 @@
+/bin/
+/obj/
+/x64/
+/Debug/
+/Release/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.exe
+*.dll
+*.pdb
