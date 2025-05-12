@@ -52,4 +52,5 @@ public:
 	void removeMajor(string major);
 	vector<Instructor*> getInstructors();
 	void displayCourseInfo();
+	bool operator==(const Course& other) const;
 };

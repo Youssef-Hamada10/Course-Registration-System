@@ -138,3 +138,9 @@ void Course::displayCourseInfo() {
     }
     cout << "]\n";
 }
+
+bool Course::operator==(const Course& other) const {
+    return this->ID == other.ID;
+}
+
+
