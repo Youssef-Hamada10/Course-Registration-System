@@ -44,6 +44,9 @@ public:
 	int getTotalCreditHours() const;
 	void setTotatlCreditHours(int totalCreditHours);
 	void registerCourse(unordered_map<string, Course>& courses);
+	bool checkRegisteredCourses(Course* course);
+	void displayAvailableCourses(unordered_map<string, Course>& courses);
+	bool checkDepartment(const vector<string>&majors);
 	void addCourseInFiles(pair<Course*, string> course);
 	void displayInfo();
 	void displayGrades();

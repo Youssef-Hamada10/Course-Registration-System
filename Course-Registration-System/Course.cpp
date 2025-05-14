@@ -108,7 +108,6 @@ void Course::addMajor(string major) {
 
 void Course::removeMajor(string major) {
     auto it = find(reqMajor.begin(), reqMajor.end(), major);
-
     if (it != reqMajor.end()) {
         reqMajor.erase(it);
     } else {
@@ -121,7 +120,6 @@ vector<Instructor*> Course::getInstructors() {
 }
 
 void Course::displayCourseInfo() {
-    system("cls");
     cout << "\nCourse ID: " << this->ID << endl;
     cout << "Course Name: " << this->title << endl;
     cout << "Course Syllabus: " << this->syllabus << endl;

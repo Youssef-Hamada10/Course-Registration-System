@@ -1,12 +1,2 @@
-﻿  Admin.cpp
-D:\CIS Subjects\2nd Level\Second Semester\Repo\Course-Registration-System\Admin.cpp(224,10): warning C4101: 'isValid': unreferenced local variable
-D:\CIS Subjects\2nd Level\Second Semester\Repo\Course-Registration-System\Admin.cpp(266,35): warning C4101: 'e': unreferenced local variable
-D:\CIS Subjects\2nd Level\Second Semester\Repo\Course-Registration-System\Admin.cpp(395,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Course.cpp
-  Handleable.cpp
-  Main.cpp
-D:\CIS Subjects\2nd Level\Second Semester\Repo\Course-Registration-System\Main.cpp(75,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Person.cpp
-  Student.cpp
-  Generating Code...
-  Course-Registration-System.vcxproj -> D:\CIS Subjects\2nd Level\Second Semester\Repo\x64\Debug\Course-Registration-System.exe
+﻿  Student.cpp
+  Course-Registration-System.vcxproj -> C:\Users\ma258\source\repos\Course-Registration-System\x64\Debug\Course-Registration-System.exe

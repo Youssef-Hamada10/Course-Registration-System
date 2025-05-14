@@ -9,14 +9,11 @@
 #include "Student.h"
 #include "Course.h"
 #include "Handleable.h"
-
 using namespace std;
-
 map<string, Student> students;
 map<string, Admin> admins;
 unordered_map<string, Course> courses;
 unordered_map<string, Instructor> instructors;
-
 queue<string> split(string line, char ch);
 void readStudents();
 void readAdmins();
@@ -37,25 +34,19 @@ bool signUpAsStudent();
 bool signUpAsAdmin();
 pair<bool, map<string, Student>::iterator> loginAsStudent();
 pair<bool, map<string, Admin>::iterator> loginAsAdmin();
-
 int main() {
     bool access = true;
     readCourses();
     readStudents();
     readAdmins();
-
     auto menuChoice = [](int choice = 0) -> int {
         cout << "Course Registration Management System\n------------------------------------\n";
         cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
         return choice;
         };
-
     while (access)
         access = mainMenu(menuChoice());
-
-            
-
     cout << "Thanks For Using Our System :)" << endl;
 
     writeCourses();
@@ -520,7 +511,6 @@ bool mainMenu(int choice) {
     else if (choice == 2) {
         cout << "\n1: Login As a Student.\n2: Login As an Admin.\n3: Exit.\n\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
-
         cin.ignore();
         if (choice == 1) {
             pair<bool, map<string, Student>::iterator> student;
@@ -529,7 +519,6 @@ bool mainMenu(int choice) {
                     flag = true;
                     break;
                 }
-
                 ++counter;
                 student = loginAsStudent();
                 loggedIn = student.first;
@@ -595,7 +584,7 @@ bool signUpAsStudent() {
     }
 
     ID = to_string(stoi(students.rbegin()->first) + 1);
-    Student student(ID, ID + "@cis.asu.edu.eg", password, name, nationalID, telephoneNumber, address, nationality, 0.0, 1, 19);
+    Student student(ID, ID + "@cis.asu.edu.eg", password, name, nationalID, telephoneNumber, address, nationality, 0.0, 1, 21);
     students.emplace_hint(students.end(), student.getID(), student);
 
     return true;
@@ -624,7 +613,6 @@ bool signUpAsAdmin() {
 
 pair<bool, map<string, Student>::iterator> loginAsStudent() {
     string ID, nationalID, password;
-
     cout << "Enter Your ID: ";
     ID = Handleable::emptyString(readLine(), "ID");
     cout << "Enter Your National ID: ";
