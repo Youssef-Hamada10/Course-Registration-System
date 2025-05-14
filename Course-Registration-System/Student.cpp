@@ -134,7 +134,7 @@ void Student::setTotatlCreditHours(int totalCreditHours) {
     this->totalCreditHours = totalCreditHours;
 }
 
-vector<pair<Course*, string>>& Student::getRegisteredCourses() {
+vector<pair<const Course*, string>>& Student::getRegisteredCourses() {
     return registeredCourses;
 }
 
@@ -142,7 +142,7 @@ void Student::addCourseInFiles(pair<Course*, string> course) {
     this->registeredCourses.push_back(course);
 }
 
-void Student::menu(unordered_map<string, Course>& courses) {
+void Student::menu(const unordered_map<string, Course>& courses) {
     int choice;
     do {
     system("cls");
@@ -186,12 +186,11 @@ void Student::displayInfo() {
     cout << "Address: " << left << setw(34) << address << "Nationality: " << nationality << endl;
     cout << "Level: " << left << setw(36) << level << "Total Credit Hours: " << totalCreditHours << endl;
     cout << string(77, '=') << endl;
-    updateGPA();//????
     cout << "\npress any key to continue: ";
     _getch();
 }
 
-void Student::registerCourse(unordered_map<string,Course>&courses)
+void Student::registerCourse(const unordered_map<string,Course>&courses)
 {
     do {
         system("cls");
@@ -199,36 +198,36 @@ void Student::registerCourse(unordered_map<string,Course>&courses)
         displayAvailableCourses(courses);
         cout << "Enter Course id: ";
         id = Handleable::emptyString([&]() -> string { getline(cin, id); return id; }(), "ID");
-        auto it = courses.find(id);
-        if (it == courses.end() || it->second.getSemester() != Admin::currentSemester)
+        auto course = courses.find(id);
+        if (course == courses.end() || course->second.getSemester() != Admin::currentSemester)
         {
             cout << "\nRegistration failed: Course not found or not Available this semester\n";
             break;
         }
-        if (!checkDepartment(it->second.getReqMajors())) {
+        if (!checkDepartment(course->second.getReqMajors())) {
 
             cout << "\nRegistration failed: Course is not Avaliable for this department\n";
             break;
         }
         system("cls");
-        it->second.displayCourseInfo();
-        cout << "\nAre you sure you want to register " << it->second.getTitle() << " ?\n";
+        course->second.displayCourseInfo();
+        cout << "\nAre you sure you want to register " << course->second.getTitle() << " ?\n";
         char choice = Handleable::toContinue();
         if (!choice)
         {
             return;
         }
-        if (!checkRegisteredCourses(&(it->second))) {
+        if (!checkRegisteredCourses(&(course->second))) {
             cout << "\nRegistration failed: Course already registerd\n";
             break;
         }
-        if (this->currentCreditHours < it->second.getCreditHours()) {
+        if (this->currentCreditHours < course->second.getCreditHours()) {
             cout << "\nRegistration failed: Credit hour limit exceeded\n";
             break;
         }
-        this->totalCreditHours += it->second.getCreditHours();
-        this->currentCreditHours -= it->second.getCreditHours();
-        registeredCourses.push_back({ &(it->second),"N.A" });
+        this->totalCreditHours += course->second.getCreditHours();
+        this->currentCreditHours -= course->second.getCreditHours();
+        registeredCourses.push_back({ &(course->second),"N.A" });
         cout << "Course registered successfully\n";
         cout << "\nDo you want to register another course ?\n";
         choice = Handleable::toContinue();
@@ -241,12 +240,12 @@ void Student::registerCourse(unordered_map<string,Course>&courses)
     _getch();
 }
 
-void Student::displayAvailableCourses(unordered_map<string, Course>& courses)
+void Student::displayAvailableCourses(const unordered_map<string, Course>& courses)
 {
 
     cout << left << setw(10) << "ID" << setw(40) << "Course Title" << "Credit Hours" << endl;
     cout << string(65,'=')<<endl; 
-    for (auto& course : courses)
+    for (const auto& course : courses)
     {
         if (course.second.getSemester() != Admin::currentSemester) continue;
         if (checkDepartment(course.second.getReqMajors())) {
@@ -266,7 +265,7 @@ bool Student::checkDepartment(const vector<string>&majors) {
     return false;
 }
 
-bool Student::checkRegisteredCourses(Course* course)
+bool Student::checkRegisteredCourses(const Course* course)
 {
     for (const auto& registeredCourse:registeredCourses)
     {
@@ -293,7 +292,7 @@ void Student::displayGrades() {
     _getch();
 }
 
-void Student::displayPrerequisite(unordered_map<string, Course>& courses) {
+void Student::displayPrerequisite(const unordered_map<string, Course>& courses) {
     char choice;
     do 
     {
@@ -314,20 +313,20 @@ void Student::displayPrerequisite(unordered_map<string, Course>& courses) {
         }
     } while (true);
 }
-void Student::displayAllPrerequisite(unordered_map<string, Course>& courses) {
+void Student::displayAllPrerequisite(const unordered_map<string, Course>& courses) {
     system("cls");
-    for (auto& course : courses) {
+    for (const auto& course : courses) {
         if (checkDepartment(course.second.getReqMajors()))
         {
             course.second.displayCourseInfo();
-            Sleep(1000);
+            Sleep(500);
         }
     }
     cout << "\npress any key to continue :";
     _getch();
 }
 
-void Student::searchCourse(unordered_map<string, Course>& courses) {
+void Student::searchCourse(const unordered_map<string, Course>& courses) {
     system("cls");
     cout << string(43, '-');
     string id = "";
@@ -374,8 +373,15 @@ void Student::report() {
 void Student::report() {
     system("cls");
     cout << string(43, '-')<<endl;
-    ofstream htmlFile("student_report.html");
-    htmlFile << "<html>\n";
+    string htmlFilename = this->name + "_report.html";
+    string pdfFilename = this->name + "_report.pdf";
+    ofstream htmlFile(htmlFilename);
+    if (!htmlFile.is_open()) {
+        cout << "Error while Creating HTML file\n";
+        cout << "\npress any key to continue: ";
+        _getch();
+        return;
+    }    htmlFile << "<html>\n";
     htmlFile << "<head>\n";
     htmlFile << "<title>Student Report</title>\n";
     htmlFile << "<style>\n";
@@ -390,21 +396,24 @@ void Student::report() {
     htmlFile << "</style>\n";
     htmlFile << "</head>\n";
     htmlFile << "<body>\n";
-    //htmlFile << "<h1>Student Report</h1>\n";
     htmlFile << "<p><strong>Name:</strong> " << this->name << "</p>\n";
     htmlFile << "<p><strong>ID:</strong> " << this->ID << "</p>\n";
     htmlFile << "<p><strong>Level:</strong> " << this->level << "</p>\n";
     htmlFile << "<p><strong>Department :</strong> " << this->major << "</p>\n";
     string semester = "";
     string temp = "";
+    bool isTableOpen=false;
     for (const auto& course : registeredCourses) {
         semester = course.first->getSemester() ? "Spring" : "Fall";
         if (semester != temp) {
-            htmlFile << "</table>\n";
+            if (isTableOpen) {
+                htmlFile << "</table>\n";
+            }
             htmlFile << "<h2>" << semester << " Semester</h2>\n";
             htmlFile << "<table>\n";
             htmlFile << "<tr><th>Course ID</th><th>Title</th><th>Credit Hours</th><th>Grade</th></tr>\n";
             temp = semester;
+            isTableOpen = true;
         }
         htmlFile << "<tr>\n";
         htmlFile << "<td>" << course.first->getID() << "</td>\n";
@@ -413,28 +422,41 @@ void Student::report() {
         htmlFile << "<td>" << course.second << "</td>\n";
         htmlFile << "</tr>\n";
     }
-    htmlFile << "</table>\n";
+    if (isTableOpen)
+    {
+        htmlFile << "</table>\n";
+    }
     htmlFile << "<p style='font-size: 18px;'><strong>CGPA:</strong> " << this->gpa << "</p>\n";
     htmlFile << "</body>\n";
     htmlFile << "</html>\n";
     htmlFile.close();
-    system("wkhtmltopdf student_report.html student_report.pdf");
+    string command = "wkhtmltopdf \"" + htmlFilename + "\" \"" + pdfFilename + "\"";
+    system(command.c_str());
     cout << "PDF report created successully\n";
+    remove(htmlFilename.c_str());
     cout << "\npress any key to continue: ";
     _getch();
 }
-
 void Student::updateGPA() {
-    if (registeredCourses.empty()) {
+    if (registeredCourses.empty()||totalCreditHours==0) {
+        this->gpa = 0.0f;
         return;
     }
-    float gpa = 0.0f;
-    unordered_map<string, float>::iterator it;
-    for (auto iter = registeredCourses.begin(); iter != registeredCourses.end(); ++iter) {
-        it = grade.find(iter->second);
-        if (it != grade.end()) {
-            gpa += (it->second*iter->first->getCreditHours());
+    float gpaSum = 0.0f;
+    int validCreditHours=0;//to divide on the right number not on the total credit which may contain registered course without grade
+    for (const auto& registeredCourse:registeredCourses) {
+        auto it = grade.find(registeredCourse.second);
+        if (it != grade.end() && registeredCourse.second!= "N.A" ) {
+            int creditHours = registeredCourse.first->getCreditHours();
+            gpaSum += (it->second*creditHours);
+            validCreditHours +=creditHours;
         }
     }
-    this->gpa = round(gpa / this->totalCreditHours);
+    if (validCreditHours <= 0)
+    {
+        this->gpa = 0.0f;
+        return;
+    }
+    this->gpa = gpaSum /validCreditHours;
+    this->gpa = round(this->gpa * 1000.0f) / 1000.0f;
 }

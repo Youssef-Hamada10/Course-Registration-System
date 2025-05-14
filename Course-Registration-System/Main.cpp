@@ -40,6 +40,7 @@ int main() {
     readStudents();
     readAdmins();
     auto menuChoice = [](int choice = 0) -> int {
+        system("cls");
         cout << "Course Registration Management System\n------------------------------------\n";
         cout << "1: Sign Up.\n2: Login.\n3: Exit.\nYour Choice: ";
         choice = Handleable::handlingChoiceNotFound(3);
@@ -126,7 +127,7 @@ void writeStudents() {
 
     file << "Student ID,Username,Password,Name,Nationality,National ID,Telephone Number,Address,GPA,Level,Major,Current Credit Hours,Total Credit Hours,Registered Courses IDs,Courses Grades\n";  // Header
 
-    vector<pair<Course*, string>> registeredCourses;
+    vector<pair<const Course*, string>> registeredCourses;
     string IDs;
     string grades;
 
@@ -489,6 +490,7 @@ bool mainMenu(int choice) {
                 return 1;
             }
             cout << "Signed Up Is Done!" << endl;
+            return 1;
         }
 
         else if (choice == 2) {
@@ -505,6 +507,7 @@ bool mainMenu(int choice) {
                 return 1;
             }
             cout << "Signed Up Is Done!" << endl;
+            return 1;
         }
     }
 
@@ -529,6 +532,7 @@ bool mainMenu(int choice) {
             }
             student.second->second.menu(courses);
             cout << "Logged In Is Done!" << endl;
+            return 0;
         }
 
         else if (choice == 2) {
@@ -549,6 +553,7 @@ bool mainMenu(int choice) {
             }
             admin.second->second.menu(students, courses, instructors);
             cout << "Logged In Is Done!" << endl;
+            return 0;
         }
     }
     return 0;
@@ -586,7 +591,6 @@ bool signUpAsStudent() {
     ID = to_string(stoi(students.rbegin()->first) + 1);
     Student student(ID, ID + "@cis.asu.edu.eg", password, name, nationalID, telephoneNumber, address, nationality, 0.0, 1, 21);
     students.emplace_hint(students.end(), student.getID(), student);
-
     return true;
 }
 

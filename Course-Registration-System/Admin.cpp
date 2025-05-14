@@ -155,21 +155,19 @@ void Admin::manualUpload(map<string, Student>& students) {
     }
 
     auto& regCourses = student->second.getRegisteredCourses();
-    auto isValidCourse = [&ID](const pair<Course*, string>& course) {
+    auto isValidCourse = [&ID](const pair<const Course*, string>& course) {
         return course.first->getID() == ID;
     };
 
-    vector<pair<Course*, string>>::iterator courseIt;
+    vector<pair<const Course*, string>>::iterator courseIt;
     cout << "Student's Data:\nName: " << student->second.getName() << "\nUsername: " << student->second.getUsername() << "\nTelephone Number: " << student->second.getTelephoneNumber() << endl;
     cout << "\nEnrolled Courses: \n";
     student->second.displayGrades();
-
     //for (; courseIt != student->second.getRegisteredCourses().end(); ++courseIt) {
     //    if (courseIt->first->getID() == ID) {
     //        break;
     //    }
     //}
-
     do {
         cout << "\nEnter Course ID To Change Its Grade: ";
         ID = Handleable::emptyString(read(ID), "Course ID");

@@ -28,7 +28,7 @@ Course::Course() {
     semester = Fall;
 }
 
-string Course::getID() {
+string Course::getID() const {
     return ID;
 }
 
@@ -36,7 +36,7 @@ void Course::setID(string ID) {
     this->ID = ID;
 }
 
-string Course::getTitle() {
+string Course::getTitle() const {
     return title;
 }
 
@@ -82,7 +82,7 @@ void Course::removeInstructor(Instructor& instructor) {
     }
 }
 
-int Course::getCreditHours() {
+int Course::getCreditHours() const {
     return creditHours;
 }
 
@@ -90,7 +90,7 @@ void Course::setCreditHours(int creditHours) {
     this->creditHours = creditHours;
 }
 
-Semester Course::getSemester() {
+Semester Course::getSemester() const {
     return semester;
 }
 
@@ -98,7 +98,7 @@ void Course::setSemester(Semester semester) {
     this->semester = semester;
 }
 
-vector<string> Course::getReqMajors() {
+vector<string> Course::getReqMajors() const {
     return reqMajor;
 }
 
@@ -115,11 +115,11 @@ void Course::removeMajor(string major) {
     }
 }
 
-vector<Instructor*> Course::getInstructors() {
+vector<Instructor*> Course::getInstructors() const {
     return instructors;
 }
 
-void Course::displayCourseInfo() {
+void Course::displayCourseInfo() const {
     cout << "\nCourse ID: " << this->ID << endl;
     cout << "Course Name: " << this->title << endl;
     cout << "Course Syllabus: " << this->syllabus << endl;

@@ -1,2 +1,7 @@
-﻿  Student.cpp
+﻿  Admin.cpp
+C:\Users\ma258\source\repos\Course-Registration-System\Course-Registration-System\Admin.cpp(222,10): warning C4101: 'isValid': unreferenced local variable
+C:\Users\ma258\source\repos\Course-Registration-System\Course-Registration-System\Admin.cpp(264,35): warning C4101: 'e': unreferenced local variable
+C:\Users\ma258\source\repos\Course-Registration-System\Course-Registration-System\Admin.cpp(393,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Student.cpp
+  Generating Code...
   Course-Registration-System.vcxproj -> C:\Users\ma258\source\repos\Course-Registration-System\x64\Debug\Course-Registration-System.exe
